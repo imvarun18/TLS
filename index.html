@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RC24 Tri Series League - Tournament Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-content">
+            <img src="TSL_logo.jpg" alt="RC24 Tri Series League Logo" class="tournament-logo">
+            <h1>RC24 Tri Series League</h1>
+            <p>Your ultimate online cricket battle!</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#schedule">Schedule</a></li>
+                <li><a href="#scorecard">Scorecard</a></li>
+                <li><a href="#teams">Teams</a></li>
+                <li><a href="#rules">Rules</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="schedule" class="section-card">
+            <h2>Match Schedule</h2>
+            <div id="match-schedule-container">
+                <!-- Matches will be dynamically inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <section id="scorecard" class="section-card">
+            <h2>Latest Scorecard</h2>
+            <div class="scorecard-content">
+                <p><strong>Match 1: RCB vs CSK (June 17, 2025)</strong></p>
+                <div class="match-summary">
+                    <p>Match in progress or to be played.</p>
+                    <!-- <p><strong>RCB:</strong> 150/5 (20 Overs)</p>
+                    <p><strong>CSK:</strong> 152/4 (19.2 Overs)</p>
+                    <p class="result"><strong>Result:</strong> CSK won by 6 wickets.</p> -->
+                </div>
+                <hr>
+                <p><strong>Match 2: CSK vs MI (June 18, 2025)</strong></p>
+                <div class="match-summary">
+                    <p>Match in progress or to be played.</p>
+                </div>
+                <!-- Add more match scorecards as the tournament progresses -->
+            </div>
+        </section>
+
+        <section id="teams" class="section-card">
+            <h2>Participating Teams</h2>
+            <div class="team-list">
+                <div class="team-card rcb">
+                    <h3>Team RCB</h3>
+                    <p>Captain: Varun Sai</p>
+                    <img src="Royal_Challengers_Bengaluru_Logo.svg.png" alt="RCB Logo">
+                </div>
+                <div class="team-card csk">
+                    <h3>Team CSK</h3>
+                    <p>Captain: Lokesh</p>
+                    <img src="Chennai_Super_Kings_Logo.svg.png" alt="CSK Logo">
+                </div>
+                <div class="team-card mi">
+                    <h3>Team MI</h3>
+                    <p>Captain: Hemanth</p>
+                    <img src="Mumbai_Indians_Logo.svg.png" alt="MI Logo">
+                </div>
+            </div>
+        </section>
+
+        <section id="rules" class="section-card">
+            <h2>Tournament Rules (Example)</h2>
+            <ul>
+                <li>All matches are 5 overs per side.</li>
+                <li>Each player will represent their chosen team (RCB, CSK, MI).</li>
+                <li>The tournament will follow a round-robin format.</li>
+                <li>Points System: Win (2 points), Loss (0 points).</li>
+                <li>Tie-breaker: Net Run Rate (NRR).</li>
+                <li>Fair play and sportsmanship are highly encouraged.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 RC24 Tri Series League. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

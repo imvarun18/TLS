@@ -1,0 +1,380 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    color: #e0e0e0; /* Light grey text for readability */
+    background: #111827; /* Dark background */
+    /* Subtle geometric pattern using SVG for background, inspired by tech/gaming */
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239CA3AF' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 28h28v2H2zM0 60h30V58H0zm0-4h30V54H0zm0-4h30V50H0zm0-4h30V46H0zm0-4h30V42H0zm0-4h30V38H0zm0-4h30V34H0zm0-4h30V30H0zm0-4h30V26H0zm0-4h30V22H0zm0-4h30V18H0zm0-4h30V14H0zm0-4h30V10H0zm0-4h30V6H0z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed; /* Keeps pattern fixed during scroll */
+}
+
+.container {
+    width: 90%;
+    max-width: 1300px; /* Slightly wider container */
+    margin: auto;
+    overflow: hidden;
+    padding: 0 1rem; /* Added horizontal padding for small screens */
+}
+
+/* Header */
+.main-header {
+    background: linear-gradient(135deg, #2a004a, #0d011a); /* Deep, rich gradient */
+    color: #fff;
+    padding: 3rem 0 2rem; /* More vertical padding */
+    text-align: center;
+    border-bottom: 6px solid #e94560; /* Stronger accent line */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tournament-logo {
+    max-width: 180px; /* Larger logo */
+    height: auto;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 10px rgba(255, 65, 108, 0.5)); /* Glow effect for logo */
+}
+
+.main-header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4.5rem; /* Larger, more impactful title */
+    margin-bottom: 0.8rem;
+    text-shadow: 0 0 15px rgba(255,255,255,0.3), 0 0 25px rgba(233, 69, 96, 0.7); /* Enhanced text shadow/glow */
+    color: #ffffff;
+    letter-spacing: 3px;
+    line-height: 1; /* Tighter line height */
+}
+
+.main-header p {
+    font-size: 1.4rem;
+    color: #b0c4de; /* Softer white for tagline */
+    font-weight: 300;
+}
+
+/* Navigation */
+.main-nav {
+    background: #1c253b; /* A subtle, slightly translucent background */
+    padding: 1.2rem 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-radius: 0 0 15px 15px; /* Rounded bottom corners */
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem; /* More space between links */
+}
+
+.main-nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600; /* Bolder links */
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px; /* Pill-shaped buttons */
+    transition: all 0.3s ease;
+    background-color: rgba(255,255,255,0.05); /* Very subtle background */
+}
+
+.main-nav ul li a:hover,
+.main-nav ul li a.active {
+    background: linear-gradient(45deg, #ff416c, #e94560); /* Gradient hover effect */
+    color: #fff;
+    transform: translateY(-3px); /* Slight lift on hover */
+    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+}
+
+/* Main Content Sections */
+main {
+    padding: 3rem 0;
+}
+
+.section-card {
+    background-color: #1a233b; /* Darker blue for cards */
+    border-radius: 15px; /* More rounded corners */
+    padding: 2.5rem;
+    margin-bottom: 3rem; /* More space between sections */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5); /* Stronger shadow */
+    border: 1px solid rgba(255, 65, 108, 0.2); /* Subtle accent border */
+    transition: transform 0.3s ease-in-out;
+}
+
+.section-card:hover {
+    transform: translateY(-5px); /* Lift effect on section hover */
+}
+
+.section-card h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    color: #ff416c; /* Primary accent color */
+    margin-bottom: 2rem;
+    text-align: center;
+    border-bottom: 3px solid rgba(255, 65, 108, 0.3);
+    padding-bottom: 1.2rem;
+    text-shadow: 0 0 10px rgba(255, 65, 108, 0.3);
+}
+
+/* Schedule */
+#match-schedule-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly larger min-width */
+    gap: 2rem; /* More space between match cards */
+}
+
+.match-card {
+    background-color: #242b45; /* Darker background for individual match cards */
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid rgba(255,255,255,0.05); /* Very subtle border */
+}
+
+.match-card:hover {
+    transform: translateY(-8px) scale(1.02); /* More pronounced lift and slight scale */
+    background: linear-gradient(135deg, #2a004a, #1a233b); /* Gradient on hover */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.match-card h3 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 5px rgba(255,255,255,0.1);
+}
+
+.match-card p {
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+    color: #c0c0c0;
+}
+
+.match-card .match-date {
+    font-weight: bold;
+    color: #ffc107; /* Gold/yellow accent for dates */
+    font-size: 1.2rem;
+}
+
+/* Scorecard */
+.scorecard-content .match-summary {
+    background-color: #242b45;
+    padding: 1.8rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.scorecard-content p {
+    margin-bottom: 0.8rem;
+    font-size: 1.15rem;
+}
+
+.scorecard-content .result {
+    font-weight: bold;
+    color: #4CAF50; /* Green for win */
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.scorecard-content hr {
+    border: 0;
+    border-top: 1px dashed rgba(255, 65, 108, 0.3); /* Accent dashed line */
+    margin: 2rem 0;
+}
+
+/* Teams */
+.team-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.team-card {
+    background: linear-gradient(145deg, #242b45, #1a233b); /* Subtle gradient for team cards */
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    flex: 1;
+    min-width: 280px; /* Larger min-width for team cards */
+    max-width: 31%; /* Adjusted max-width */
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 65, 108, 0.1);
+}
+
+.team-card:hover {
+    transform: translateY(-12px) scale(1.03); /* More dramatic lift and scale */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    background: linear-gradient(145deg, #2a004a, #242b45); /* Darker gradient on hover */
+}
+
+.team-card h3 {
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 5px rgba(255,255,255,0.2);
+}
+
+.team-card p {
+    color: #b0c4de;
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+}
+
+.team-card img {
+    width: 120px; /* Fixed width for team logos */
+    height: 120px; /* Fixed height for team logos */
+    object-fit: contain; /* Ensures logos fit well within the dimensions */
+    transition: transform 0.3s ease-in-out;
+}
+
+.team-card.rcb img:hover {
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 0, 0, 0.5)); /* Red glow for RCB */
+}
+
+.team-card.mi img:hover {
+    filter: drop-shadow(0 0 20px rgba(0, 0, 255, 0.8)) drop-shadow(0 0 30px rgba(0, 0, 255, 0.5)); /* Blue glow for MI */
+}
+
+.team-card.csk img:hover {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 255, 0, 0.5)); /* Yellow glow for CSK */
+}
+
+.team-card img:hover {
+    transform: scale(1.1);
+    /*filter: drop-shadow(0 0 20px rgba(255, 65, 108, 0.8)) drop-shadow(0 0 30px rgba(255, 65, 108, 0.5)); !* Stronger glow using drop-shadow *!*/
+}
+
+/* Rules */
+#rules ul {
+    list-style: none; /* Remove default bullets */
+    padding-left: 0;
+}
+
+#rules ul li {
+    background-color: #242b45;
+    margin-bottom: 0.8rem;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    color: #c0c0c0;
+    position: relative; /* For custom bullet */
+    padding-left: 2.5rem; /* Space for custom bullet */
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+#rules ul li::before {
+    content: '★'; /* Custom star bullet */
+    color: #ffc107; /* Gold star */
+    font-size: 1.3rem;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+/* Footer */
+.main-footer {
+    background: #0d011a;
+    color: #90a4ae; /* Softer footer text */
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 1rem;
+    border-top: 5px solid #e94560;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-header h1 {
+        font-size: 3.5rem;
+    }
+    .main-nav ul {
+        gap: 1.5rem;
+    }
+    .team-card {
+        max-width: 48%; /* Adjust for two columns on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header h1 {
+        font-size: 2.8rem;
+    }
+    .main-header p {
+        font-size: 1.1rem;
+    }
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem; /* Tighter spacing for vertical nav */
+    }
+    .main-nav ul li a {
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+    }
+    .section-card {
+        padding: 2rem;
+    }
+    .section-card h2 {
+        font-size: 2rem;
+    }
+    .team-card {
+        min-width: 250px;
+        max-width: 100%; /* Full width on smaller mobiles */
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header h1 {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+    .tournament-logo {
+        max-width: 120px;
+    }
+    .main-header p {
+        font-size: 0.9rem;
+    }
+    .section-card {
+        padding: 1.5rem;
+    }
+    .section-card h2 {
+        font-size: 1.8rem;
+    }
+    .match-card, .scorecard-content .match-summary, .team-card {
+        padding: 1.2rem;
+    }
+    .match-card h3, .team-card h3 {
+        font-size: 1.5rem;
+    }
+    .match-card p, .scorecard-content p {
+        font-size: 1rem;
+    }
+    .main-footer {
+        padding: 1.2rem 0;
+    }
+}
