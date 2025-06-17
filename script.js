@@ -1,55 +1,69 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const matchScheduleContainer = document.getElementById('match-schedule-container');
-    const today = new Date(); // Current date for starting the schedule
-    today.setHours(0, 0, 0, 0); // Normalize to start of day
+    // Theme Toggle Functionality
+    const themeToggle = document.getElementById('theme-checkbox');
+    const body = document.body;
+    const themeLabel = document.querySelector('.theme-switch-wrapper .theme-label');
 
-    // Define the teams and their player/captain
-    const teams = [
-        { name: "RCB", captain: "Varun Sai" },
-        { name: "CSK", captain: "Lokesh" },
-        { name: "MI", captain: "Hemanth" }
-    ];
+    // Function to apply theme and update label
+    function applyTheme(isLight) {
+        if (isLight) {
+            body.classList.add('light-theme');
+            if (themeToggle) themeToggle.checked = true;
+            if (themeLabel) themeLabel.textContent = 'Dark Mode'; // Label indicates what clicking will switch TO
+        } else {
 
-    // Generate round-robin match schedule for 3 teams
-    // A vs B, B vs C, C vs A (Cycle 1)
-    // A vs C, B vs A, C vs B (Cycle 2 - reverse fixtures)
-    const fixtures = [
-        { home: teams[0], away: teams[1] }, // RCB vs CSK
-        { home: teams[1], away: teams[2] }, // CSK vs MI
-        { home: teams[2], away: teams[0] }, // MI vs RCB
-        { home: teams[1], away: teams[0] }, // RCB vs MI (Reverse fixture)
-        { home: teams[0], away: teams[2] }, // CSK vs RCB
-        { home: teams[2], away: teams[1] }  // MI vs CSK
-    ];
+            body.classList.remove('light-theme');
+            if (themeToggle) themeToggle.checked = false;
+            if (themeLabel) themeLabel.textContent = 'Light Mode'; // Label indicates what clicking will switch TO
+        }
+    }
 
-    let matchCount = 1;
-    fixtures.forEach((fixture, index) => {
-        const matchDate = new Date(today);
-        matchDate.setDate(today.getDate() + index); // Daily match, starting from today
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        applyTheme(true);
+    } else {
+        applyTheme(false); // Default to dark if no preference or 'dark'
+    }
 
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = matchDate.toLocaleDateString('en-US', options);
-
-        const matchCard = document.createElement('div');
-        matchCard.classList.add('match-card');
-        matchCard.innerHTML = `
-            <h3>Match ${matchCount}</h3>
-            <p>${fixture.home.name} vs ${fixture.away.name}</p>
-            <p class="match-date">${formattedDate}</p>
-            <p>Time: 7:00 PM IST</p>
-            <p>Venue: Online Arena</p>
-        `;
-        matchScheduleContainer.appendChild(matchCard);
-        matchCount++;
-    });
-});
-
-// Basic navigation smooth scroll
-document.querySelectorAll('nav ul li a').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
+    if (themeToggle) {
+        themeToggle.addEventListener('change', () => {
+            if (themeToggle.checked) { // If checked, it means user wants light theme
+                applyTheme(true);
+                localStorage.setItem('theme', 'light');
+            } else { // If unchecked, user wants dark theme
+                applyTheme(false);
+                localStorage.setItem('theme', 'dark');
+            }
         });
-    });
+    }
+
+    // Match Schedule (Example data, can be fetched or managed elsewhere)
+    const matches = [
+        { team1: "Team RCB", team2: "Team CSK", date: "June 17, 2025", time: "7:00 PM", venue: "Melbourne Stadium" },
+        { team1: "Team MI", team2: "Team RCB", date: "June 18, 2025", time: "7:00 PM", venue: "London Stadium" },
+        { team1: "Team CSK", team2: "Team MI", date: "June 19, 2025", time: "7:00 PM", venue: "Mumbai Stadium" },
+        { team1: "Team RCB", team2: "Team CSK", date: "June 20, 2025", time: "7:00 PM", venue: "Melbourne Stadium" },
+        { team1: "Team MI", team2: "Team RCB", date: "June 21, 2025", time: "7:00 PM", venue: "Mumbai Stadium" },
+        { team1: "Team CSK", team2: "Team MI", date: "June 22, 2025", time: "7:00 PM", venue: "London StadiumS" },
+    ];
+
+    const scheduleContainer = document.getElementById('match-schedule-container');
+    if (scheduleContainer) {
+        if (matches.length > 0) {
+            matches.forEach(match => {
+                const matchCard = document.createElement('div');
+                matchCard.classList.add('match-card');
+                matchCard.innerHTML = `
+                    <h3>${match.team1} vs ${match.team2}</h3>
+                    <p class="match-date">Date: ${match.date}</p>
+                    <p>Time: ${match.time}</p>
+                    <p>Venue: ${match.venue}</p>
+                `;
+                scheduleContainer.appendChild(matchCard);
+            });
+        } else {
+            scheduleContainer.innerHTML = '<p>Match schedule will be updated soon.</p>';
+        }
+    }
 });

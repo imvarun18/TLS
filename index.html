@@ -10,7 +10,7 @@
 <body>
     <header class="main-header">
         <div class="container header-content">
-            <img src="TSL_logo.jpg" alt="RC24 Tri Series League Logo" class="tournament-logo">
+            <img src="TSL_logo_bg.png" alt="RC24 Tri Series League Logo" class="tournament-logo">
             <h1>RC24 Tri Series League</h1>
             <p>Your ultimate online cricket battle!</p>
         </div>
@@ -22,8 +22,17 @@
                 <li><a href="#schedule">Schedule</a></li>
                 <li><a href="#scorecard">Scorecard</a></li>
                 <li><a href="#teams">Teams</a></li>
+                <li><a href="#points-table">Points Table</a></li>
                 <li><a href="#rules">Rules</a></li>
+
             </ul>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="theme-checkbox">
+                    <input type="checkbox" id="theme-checkbox" />
+                    <div class="slider round"></div>
+                </label>
+                <span class="theme-label">Light Mode</span>
+            </div>
         </div>
     </nav>
 
@@ -72,6 +81,30 @@
                     <p>Captain: Hemanth</p>
                     <img src="Mumbai_Indians_Logo.svg.png" alt="MI Logo">
                 </div>
+            </div>
+        </section>
+
+        <section id="points-table" class="section-card">
+            <h2>Points Table</h2>
+            <div class="points-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>Played</th>
+                            <th>Won</th>
+                            <th>Lost</th>
+                            <th>Points</th>
+                            <th>NRR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example Row - Populate with actual data -->
+                        <tr><td>Team RCB</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.000</td></tr>
+                        <tr><td>Team CSK</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.000</td></tr>
+                        <tr><td>Team MI</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.000</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
