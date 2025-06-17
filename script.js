@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scheduleContainer = document.getElementById('match-schedule-container');
     if (scheduleContainer) {
         if (matches.length > 0) {
-            matches.forEach(match => {
+            matches.forEach((match, index) => { // Added index to the forEach
                 const matchCard = document.createElement('div');
                 matchCard.classList.add('match-card');
                 matchCard.innerHTML = `
@@ -60,10 +60,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>Time: ${match.time}</p>
                     <p>Venue: ${match.venue}</p>
                 `;
+                // Add results: first match is done, others are to be played
+                if (index === 0 && match.team1 === "Team RCB" && match.team2 === "Team CSK") { // Check if it's the first match
+                    matchCard.innerHTML += `<p class="match-result-info match-result-won"><strong>Result:</strong> RCB won by 14 runs.</p>`;
+                } else {
+                    // For all other matches
+                    matchCard.innerHTML += `<p class="match-result-info match-result-status"><strong>Status:</strong> To be played.</p>`;
+                }
+
                 scheduleContainer.appendChild(matchCard);
             });
         } else {
             scheduleContainer.innerHTML = '<p>Match schedule will be updated soon.</p>';
         }
     }
+
+    // Scorecard Accordion Functionality
+    const matchEntries = document.querySelectorAll('.match-entry');
+
+    matchEntries.forEach(entry => {
+        entry.addEventListener('click', () => {
+            const summaryId = entry.getAttribute('aria-controls');
+            const summary = document.getElementById(summaryId);
+            const isExpanded = entry.getAttribute('aria-expanded') === 'true';
+
+            if (summary) {
+                entry.setAttribute('aria-expanded', String(!isExpanded)); // Ensure string value
+                summary.classList.toggle('is-expanded');
+            } else {
+                console.warn(`Match summary panel with ID "${summaryId}" not found.`);
+            }
+        });
+
+        // Keyboard support for Enter/Space
+        entry.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault(); // Prevent default space scroll or page jump
+                entry.click(); // Trigger the click handler
+            }
+        });
+    });
 });

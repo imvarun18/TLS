@@ -66,6 +66,10 @@
     --switch-bg: #3c4a6e;
     --switch-slider-bg: #ffffff;
     --switch-slider-checked-bg: var(--accent-primary); /* This will be accent color of the active theme */
+
+    /* Animation Timing Functions */
+    --ease-silky: cubic-bezier(0.39, 0.575, 0.565, 1); /* Smooth ease-out */
+    --ease-out-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Slight bounce at the end */
 }
 
 body.light-theme {
@@ -226,7 +230,7 @@ body {
     padding: 0.8rem 1.5rem;
     border-radius: 30px; /* Pill-shaped buttons */
     transition: all 0.3s ease;
-    background-color: var(--nav-link-bg);
+    background-color: var(--nav-link-bg); /* Ensure this is present */
 }
 
 .main-nav ul li a:hover,
@@ -234,7 +238,8 @@ body {
     background: linear-gradient(45deg, var(--nav-link-hover-gradient-start), var(--nav-link-hover-gradient-end));
     color: var(--text-on-accent);
     transform: translateY(-3px); /* Slight lift on hover */
-    box-shadow: 0 5px 15px var(--nav-link-hover-shadow-color);
+    box-shadow: 0 5px 15px var(--nav-link-hover-shadow-color); /* Ensure this is present */
+    transition: all 0.3s var(--ease-silky); /* Smoother transition */
 }
 
 /* Main Content Sections */
@@ -249,11 +254,12 @@ main {
     margin-bottom: 3rem; /* More space between sections */
     box-shadow: 0 8px 25px rgba(var(--shadow-color-rgb), 0.5);
     border: 1px solid var(--card-border-color);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.4s var(--ease-out-bounce), box-shadow 0.4s var(--ease-silky);
 }
 
 .section-card:hover {
     transform: translateY(-5px); /* Lift effect on section hover */
+    box-shadow: 0 12px 30px rgba(var(--shadow-color-rgb), 0.6); /* Enhanced shadow on hover */
 }
 
 .section-card h2 {
@@ -280,14 +286,14 @@ main {
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(var(--shadow-color-rgb), 0.4);
     text-align: center;
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.35s var(--ease-out-bounce), background 0.4s var(--ease-silky), box-shadow 0.4s var(--ease-silky);
     border: 1px solid var(--card-inner-border-color);
 }
 
 .match-card:hover {
     transform: translateY(-8px) scale(1.02); /* More pronounced lift and slight scale */
     background: linear-gradient(135deg, var(--match-card-hover-gradient-start), var(--match-card-hover-gradient-end));
-    box-shadow: 0 10px 30px rgba(var(--shadow-color-rgb), 0.6);
+    box-shadow: 0 12px 35px rgba(var(--shadow-color-rgb), 0.65); /* Enhanced shadow */
 }
 
 .match-card h3 {
@@ -309,14 +315,41 @@ main {
     font-size: 1.2rem;
 }
 
+.match-card .match-result-info {
+    font-size: 1.1rem; /* Consistent with other details */
+    margin-top: 0.8rem; /* Space above the result/status line */
+    font-weight: 500; /* Medium weight for the text */
+}
+
+.match-card .match-result-won {
+    color: var(--text-success); /* Use success color for wins */
+}
+
+.match-card .match-result-status {
+    color: var(--accent-secondary); /* Use accent color for status updates */
+}
+
 /* Scorecard */
-.scorecard-content .match-summary {
+.match-summary { /* Generalizing from .scorecard-content .match-summary */
     background-color: var(--bg-card-inner);
     padding: 1.8rem;
     border-radius: 12px;
-    margin-bottom: 1.5rem;
     box-shadow: 0 3px 10px rgba(var(--shadow-color-rgb), 0.3);
     border: 1px solid var(--card-inner-border-color);
+    /* Accordion animation properties */
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    visibility: hidden; /* Start hidden, ensures it's not focusable */
+    margin-top: 0; /* Will be controlled by hr or spacing of .match-entry */
+    margin-bottom: 0; /* Will be controlled by hr or spacing of .match-entry */
+    transition:
+        max-height 0.5s var(--ease-out-bounce), /* Bouncy expansion */
+        opacity 0.3s var(--ease-silky) 0.1s, /* Fade in/out smoothly */
+        padding-top 0.5s var(--ease-out-bounce), /* Animate padding for smoother feel */
+        padding-bottom 0.5s var(--ease-out-bounce),
+        margin-bottom 0.5s var(--ease-out-bounce),
+        visibility 0s linear 0.5s; /* Become hidden after transitions */
 }
 
 .scorecard-content p {
@@ -357,13 +390,14 @@ main {
     flex: 1;
     min-width: 280px; /* Larger min-width for team cards */
     max-width: 31%; /* Adjusted max-width */
-    transition: all 0.3s ease;
+    transition: transform 0.4s var(--ease-out-bounce), box-shadow 0.4s var(--ease-silky), background 0.4s var(--ease-silky);
     border: 1px solid var(--card-border-color); /* Adjusted to main card border logic */
 }
 
 .team-card:hover {
     transform: translateY(-12px) scale(1.03); /* More dramatic lift and scale */
     box-shadow: 0 15px 40px rgba(var(--shadow-color-rgb), 0.7);
+    /* background gradient is already set for hover, transition will smooth it */
     background: linear-gradient(145deg, var(--team-card-hover-gradient-start), var(--team-card-hover-gradient-end));
 }
 
@@ -385,7 +419,7 @@ main {
     width: 120px; /* Fixed width for team logos */
     height: 120px; /* Fixed height for team logos */
     object-fit: contain; /* Ensures logos fit well within the dimensions */
-    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; /* Added filter transition */
+    transition: transform 0.3s var(--ease-out-bounce), filter 0.3s var(--ease-silky);
 }
 
 .team-card.rcb img:hover {
@@ -614,4 +648,216 @@ input:checked + .slider {
 
 input:checked + .slider:before {
     transform: translateX(24px);
+}
+
+.match-entry {
+    padding: 15px; /* Add padding to make the whole area feel clickable */
+    border-radius: 8px; /* Optional: round corners for the clickable block */
+    /* Removed margin-bottom to reduce space below the entry */
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease-silky);
+}
+
+.match-entry-header p {
+    text-align: center; /* Center the match title */
+    font-size: 1.1rem; /* Optional: adjust font size if needed */
+}
+
+.match-entry:hover {
+    background-color: var(--bg-card-inner); /* Subtle hover effect */
+}
+
+/* Styles for when the summary is expanded */
+.match-summary.is-expanded {
+    max-height: 600px; /* Adjust if content is taller, ensure it's enough for padding + content */
+    opacity: 1;
+    visibility: visible; /* Become visible immediately */
+    padding: 1.8rem; /* Restore padding when expanded */
+    margin-bottom: 1.5rem; /* Add margin when expanded */
+    transition:
+        max-height 0.5s var(--ease-out-bounce),
+        opacity 0.4s var(--ease-silky),
+        padding-top 0.5s var(--ease-out-bounce),
+        padding-bottom 0.5s var(--ease-out-bounce),
+        margin-bottom 0.5s var(--ease-out-bounce),
+        visibility 0s linear 0s; /* No delay for visibility when showing */
+}
+
+.team-logos-container {
+    display: flex;
+    flex-direction: column; /* Stack logos vertically if space is tight, or row for side-by-side */
+    align-items: center;   /* Horizontally center items in column mode */
+    justify-content: center; /* Ensures content is centered if container is wider */
+    gap: 10px; /* Gap between team1-group, vs, team2-group when stacked */
+    margin-top: 15px; /* Space below the match-entry-header */
+    padding: 10px 0; /* Add some padding */
+}
+
+.team-presentation {
+    display: flex;
+    flex-direction: row;   /* Logo and name side-by-side */
+    align-items: center;   /* Vertically align logo and name */
+    gap: 12px;             /* Space between logo and name */
+}
+
+.summary-team-name {
+    /* margin-top removed as it's now side-by-side */
+    font-size: 1.25rem; /* Increased font size for names */
+    font-weight: 600;
+    color: var(--text-secondary); /* Or var(--text-primary) depending on desired emphasis */
+}
+
+.summary-team-logo {
+    width: 85px;  /* Made logos significantly bigger */
+    height: 85px; /* Made logos significantly bigger */
+    object-fit: contain; /* Ensures the logo aspect ratio is maintained */
+}
+
+.vs-separator {
+    font-weight: bold;
+    font-size: 1.5rem; /* Made 'vs' larger */
+    margin: 0 10px; /* Adjusted spacing for column layout */
+}
+
+.score-details {
+    flex-grow: 1; /* Allows score details to take remaining space */
+}
+
+/* Targeting p tags directly within score-details for specific font sizing */
+.score-details p {
+    margin: 8px 0; /* Adjusted spacing for score lines */
+    font-size: 1.3rem; /* Increased font size for score text */
+    color: var(--text-primary); /* Ensure score details use primary text color */
+}
+
+.score-details p.result { /* Ensure the result line is also prominent if overridden */
+    font-size: 1.4rem; /* Slightly larger than other score details, if desired */
+}
+
+/* Detailed Match Summary Styles */
+.detailed-summary {
+    font-family: 'Arial', sans-serif; /* A more standard font for "broadcast" feel */
+    color: var(--text-tertiary);
+}
+
+.summary-main-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--accent-primary);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.summary-subtitle {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.innings-summary {
+    margin-bottom: 0.5rem; /* Further reduced margin */
+    padding: 0.5rem 0; /* Reduced padding, especially top/bottom */
+    /* Removed background-color and border-radius to blend into the main summary card */
+}
+
+.team-name-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.team-score-display {
+    font-size: 1rem; /* Slightly smaller than team name */
+    font-weight: normal; /* Normal weight for score */
+    color: var(--text-secondary);
+}
+
+.scoreline { /* This class is no longer used for the primary score display */
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.performance-category {
+    margin-bottom: 0.8rem;
+}
+
+.category-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+}
+
+.performance-wrap {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Adjust as needed */
+}
+
+.performance-category {
+    width: 48%; /* Adjust as needed, leave some space for gap */
+}
+
+.performance-category.bowlers {
+    text-align: right; /* Right-align bowling figures */
+}
+
+.performance-category.bowlers .category-title {
+    text-align: left; /* Keep the "Bowling" title left-aligned in the right section */
+}
+
+.performance-category.bowlers .player-list {
+    text-align: right; /* Right-align bowling figures within the list */
+}
+
+.toss-icon {
+    margin-left: 8px; /* Space between team name and coin */
+    font-size: 1.1rem; /* Adjust size of the coin icon if needed */
+    vertical-align: middle; /* Helps align with text if font sizes differ greatly */
+    cursor: help; /* Indicates the title attribute provides more info */
+}
+
+.player-list {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.95rem;
+}
+
+.player-list li {
+    margin-bottom: 0.25rem;
+}
+
+.innings-divider {
+    border: 0;
+    border-top: 1px solid var(--card-inner-border-color);
+    margin: 0.5rem 0; /* Further reduced margin */
+}
+
+.match-result-final {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-success); /* Or var(--accent-primary) if preferred */
+    margin-top: 1.5rem;
+    padding: 0.5rem;
+    background-color: rgba(var(--shadow-color-rgb), 0.05);
+    border-radius: 4px;
+}
+
+/* Responsive adjustments (optional) */
+@media (min-width: 480px) { /* For slightly larger screens, logos can be side-by-side */
+    .team-logos-container {
+        flex-direction: row; /* Logos side-by-side */
+        justify-content: center; /* Horizontally center items in row mode */
+        gap: 40px; /* Increased space between team presentations and 'vs' */
+    }
+    .vs-separator {
+        margin: 0 25px; /* Adjusted spacing around 'vs' when horizontal */
+    }
 }
