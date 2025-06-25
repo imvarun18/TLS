@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RC24 Tri Series League - Playoffs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* General Body and Container Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: #111827;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239CA3AF' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 28h28v2H2zM0 60h30V58H0zm0-4h30V54H0zm0-4h30V50H0zm0-4h30V46H0zm0-4h30V42H0zm0-4h30V38H0zm0-4h30V34H0zm0-4h30V30H0zm0-4h30V26H0zm0-4h30V22H0zm0-4h30V18H0zm0-4h30V14H0zm0-4h30V10H0zm0-4h30V6H0z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+            min-height: 100vh;
+            padding: 2rem;
+            box-sizing: border-box;
+        }        .playoffs-container {
+            background-color: #1a233b;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(255, 65, 108, 0.2);
+            position: relative; /* For absolute positioning of lines */
+        }        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            color: #ff416c;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(255, 65, 108, 0.3);
+            text-align: center;
+        }
+
+        .bracket-flow {
+            display: flex;
+            align-items: stretch; /* Make stages same height */
+            gap: 3rem; /* Space for connectors */
+            position: relative;
+        }
+
+        /* Playoff Flow Layout */
+        .playoff-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1; /* Make stages take equal width */
+        }
+
+        .match-group {
+            display: flex;
+            justify-content: center;
+            gap: 2rem; /* Space between matches in the same stage */
+            width: 100%;
+        }
+
+        .match-box, .team-box {
+            background-color: #242b45;
+            border-radius: 10px;
+            padding: 1.5rem 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            border: 1px solid rgba(255,255,255,0.05);
+            min-width: 180px;
+            text-align: center;
+            position: relative;
+            z-index: 1; /* Ensure boxes are above lines */
+            cursor: pointer;
+        }
+        .match-box:hover, .team-box:hover {
+            transform: translateY(-5px);
+            border-color: #ffc107; /* Gold accent color */
+        }
+        .match-box h3, .team-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .match-box p, .team-box p {
+            font-size: 0.95rem;
+            color: #c0c0c0;
+        }
+
+        .match-box.final {
+            background: linear-gradient(45deg, #e94560, #ff416c);
+            color: #fff;
+            padding: 2rem;
+            min-width: 250px;
+            box-shadow: 0 8px 20px rgba(233, 69, 96, 0.5);
+            /* Override transition for a more dramatic effect, including border-color from the base hover */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .match-box.final:hover {
+            /* The border-color change is inherited from the general .match-box:hover rule */
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 12px 40px rgba(233, 69, 96, 0.6), 0 0 25px rgba(255, 193, 7, 0.4); /* Enhanced red shadow + gold glow */
+        }
+        .match-box.final h3 {
+             color: #fff;
+             font-size: 1.8rem;
+        }
+        .match-box.final p {
+            color: #f0f0f0;
+        }
+
+        .match-outcome {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+        .winner-path {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .loser-path {
+            color: #e94560;
+            font-weight: bold;
+        }
+
+        /* Position badges and team indicators */
+        .team-positions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .position-badge {
+            background: linear-gradient(45deg, #e94560, #ff416c);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .position-badge.first {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .position-badge.second {
+            background: linear-gradient(45deg, #c0c0c0, #e6e6e6);
+            color: #000;
+            box-shadow: 0 0 10px rgba(192, 192, 192, 0.3);
+        }
+
+        .position-badge.third {
+            background: linear-gradient(45deg, #cd7f32, #daa520);
+            color: white;
+            box-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
+        }
+
+        .position-badge.loser {
+            background: linear-gradient(45deg, #666, #888);
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        .vs-text {
+            color: #ffc107;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+        }
+
+        /* Final match styling */
+        .final-teams {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .finalist {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .vs-final {
+            color: #ffc107;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 0 0 8px rgba(255, 193, 7, 0.7);
+        }
+
+        /* Enhanced match box styling */
+        .match-box {
+            background: linear-gradient(135deg, #242b45, #1a233b);
+            border: 2px solid rgba(255, 65, 108, 0.2);
+        }
+
+        .match-box:hover {
+            border-color: #ffc107;
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
+        }
+
+        .match-box.final {
+            background: linear-gradient(135deg, #e94560, #ff416c, #e94560);
+            border: 3px solid #ffc107;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .match-box.final::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ffd700, #ff416c, #ffd700, #ff416c);
+            z-index: -1;
+            border-radius: 12px;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .match-box.final:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 
+                0 15px 40px rgba(233, 69, 96, 0.6),
+                0 0 30px rgba(255, 193, 7, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Stage titles */
+        .playoff-stage h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffc107;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+            border-bottom: 2px solid rgba(255, 193, 7, 0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Improved connector arrows */
+        .playoff-stage:not(:last-child)::after {
+            background: linear-gradient(90deg, #ffc107, #ffed4e);
+            box-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+        }
+
+        .playoff-stage:not(:last-child)::before {
+            border-left-color: #ffed4e;
+            filter: drop-shadow(0 0 3px rgba(255, 193, 7, 0.5));
+        }        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .bracket-flow {
+                gap: 2rem;
+            }
+            
+            .match-box, .team-box {
+                min-width: 200px;
+                padding: 1.2rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .playoffs-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .bracket-flow {
+                flex-direction: column;
+                gap: 2.5rem;
+                align-items: center;
+            }
+            
+            .playoff-stage {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .playoff-stage h2 {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+            }
+            
+            .match-group {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .match-box, .team-box {
+                min-width: unset;
+                width: 100%;
+                padding: 1.5rem 1rem;
+            }
+            
+            .match-box.final {
+                min-width: unset;
+                padding: 2rem 1.5rem;
+            }
+
+            /* Vertical connectors for mobile */
+            .playoff-stage:not(:last-child)::before {
+                display: none;
+            }
+
+            .playoff-stage:not(:last-child)::after {
+                position: static;
+                transform: none;
+                display: block;
+                width: 3px;
+                height: 40px;
+                background: linear-gradient(180deg, #ffc107, #ffed4e);
+                margin: 1.5rem auto;
+                border-radius: 2px;
+                box-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
+            }
+            
+            /* Mobile positioning adjustments */
+            .team-positions {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+            }
+            
+            .final-teams {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .vs-final {
+                transform: rotate(90deg);
+                font-size: 1rem;
+            }
+
+            .flow-chart-horizontal {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .arrow-line-horizontal {
+                width: 3px;
+                height: 40px;
+                background: linear-gradient(180deg, #ffc107, #ffed4e);
+            }
+            
+            .arrow-head-horizontal {
+                transform: rotate(90deg);
+                font-size: 1.5rem;
+            }
+            
+            .paths-section {
+                flex-direction: row;
+                gap: 3rem;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .playoffs-container {
+                padding: 1rem;
+                margin: 0.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .playoff-stage h2 {
+                font-size: 1.4rem;
+            }
+            
+            .match-box h3, .team-box h3 {
+                font-size: 1.1rem;
+            }
+            
+            .match-box.final h3 {
+                font-size: 1.4rem;
+            }
+            
+            .match-box p, .team-box p {
+                font-size: 0.85rem;
+            }
+            
+            .position-badge {
+                padding: 0.2rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            
+            .vs-text {
+                font-size: 1rem;
+            }
+            
+            .match-outcome {
+                font-size: 1rem;
+                margin-top: 0.8rem;
+            }
+
+            /* Responsive flow diagram */
+            .playoff-flow-diagram {
+                padding: 1.5rem;
+            }
+            
+            .match-teams {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .flow-connector {
+                transform: rotate(90deg);
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+            
+            .team-slot {
+                min-width: 80px;
+                padding: 0.8rem;
+            }
+            
+            .team-logo {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .team-name {
+                font-size: 0.9rem;
+            }
+            
+            .team-position {
+                font-size: 0.6rem;
+            }
+            
+            .paths-section {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .eliminator-match {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .playoffs-container {
+                padding: 0.8rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                line-height: 1.2;
+            }
+            
+            .bracket-flow {
+                gap: 2rem;
+            }
+            
+            .playoff-stage h2 {
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+            }
+            
+            .match-box, .team-box {
+                padding: 1.2rem 0.8rem;
+            }
+            
+            .match-box.final {
+                padding: 1.5rem 1rem;
+            }
+            
+            .team-positions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .vs-text {
+                transform: rotate(90deg);
+                font-size: 0.9rem;
+            }
+            
+            .position-badge {
+                padding: 0.25rem 0.8rem;
+            }
+            
+            .final-teams .vs-final {
+                transform: none;
+                font-size: 1.1rem;
+            }
+
+            .flow-row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .flow-connector {
+                transform: rotate(90deg);
+                padding: 0.2rem 0.6rem;
+                font-size: 0.8rem;
+            }        }        /* Playoff Flow Diagram Styles - Enhanced Clarity */
+        .playoff-flow-diagram {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(26, 35, 59, 0.95), rgba(36, 43, 69, 0.95));
+            border-radius: 20px;
+            border: 2px solid rgba(255, 193, 7, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .playoff-flow-diagram::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(233, 69, 96, 0.1) 0%, transparent 50%);
+            animation: diagramGlow 8s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes diagramGlow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .playoff-flow-diagram h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffc107;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+            position: relative;
+            z-index: 2;
+        }/* Tournament Grid Layout */
+        .tournament-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 0;
+            min-height: 500px;
+        }        .playoff-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr 0.5fr;
+            grid-template-rows: 1fr;
+            gap: 2rem;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            position: relative;
+        }/* Left Column - Qualifier and Eliminator */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+        }        /* Right Column - Final */
+        .right-column {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            grid-column: 4;
+        }
+
+        /* Arrow Connections */
+        .arrow-connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .arrow-path {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }        /* Qualifier to Final Arrow (Top Horizontal) */
+        .qualifier-to-final {
+            top: 20%;
+            left: 25%;
+            right: 25%;
+            justify-content: center;
+        }
+
+        /* Qualifier to Eliminator Arrow (Vertical Down) */
+        .qualifier-to-eliminator {
+            top: 40%;
+            left: 15%;
+            flex-direction: column;
+            align-items: center;
+            height: 25%;
+        }
+
+        /* Eliminator to Final Arrow (Bottom Horizontal) */
+        .eliminator-to-final {
+            bottom: 20%;
+            left: 25%;
+            right: 25%;
+            justify-content: center;
+        }
+          .tournament-tile {
+            background: linear-gradient(135deg, #242b45, #1a233b);
+            border-radius: 18px;
+            padding: 1.5rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+            border: 3px solid transparent;
+            transition: all 0.4s ease;
+            position: relative;
+            min-width: 280px;
+            text-align: center;
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        .tournament-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 17px;
+            padding: 3px;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: subtract;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .tournament-tile:hover::before {
+            opacity: 1;
+        }
+
+        .qualifier-tile {
+            border-color: #4CAF50;
+            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.3), 0 0 20px rgba(76, 175, 80, 0.2);
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(139, 195, 74, 0.05));
+        }
+
+        .qualifier-tile:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(76, 175, 80, 0.4), 0 0 30px rgba(76, 175, 80, 0.3);
+        }
+
+        .eliminator-tile {
+            border-color: #ff9800;
+            box-shadow: 0 12px 30px rgba(255, 152, 0, 0.3), 0 0 20px rgba(255, 152, 0, 0.2);
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), rgba(255, 193, 7, 0.05));
+        }
+
+        .eliminator-tile:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(255, 152, 0, 0.4), 0 0 30px rgba(255, 152, 0, 0.3);
+        }        .final-tile {
+            border-color: #ffd700;
+            background: linear-gradient(135deg, #e94560, #ff416c, #e94560);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.4), 0 0 30px rgba(255, 215, 0, 0.3);
+            min-width: 350px;
+            border-width: 4px;
+        }
+
+        .final-tile:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 25px 60px rgba(233, 69, 96, 0.5), 0 0 40px rgba(255, 215, 0, 0.4);
+        }        .tile-header {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .tile-header h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin: 0;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qualifier-tile .tile-header h3 {
+            background: linear-gradient(45deg, rgba(76, 175, 80, 0.3), rgba(139, 195, 74, 0.2));
+            color: #4CAF50;
+            border: 2px solid rgba(76, 175, 80, 0.4);
+            text-shadow: 0 0 15px rgba(76, 175, 80, 0.6);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .eliminator-tile .tile-header h3 {
+            background: linear-gradient(45deg, rgba(255, 152, 0, 0.3), rgba(255, 193, 7, 0.2));
+            color: #ff9800;
+            border: 2px solid rgba(255, 152, 0, 0.4);
+            text-shadow: 0 0 15px rgba(255, 152, 0, 0.6);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
+        }        .final-tile .tile-header h3 {
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.4), rgba(255, 237, 78, 0.3));
+            color: #ffd700;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            font-size: 1.7rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+            animation: finalGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes finalGlow {
+            0% {
+                box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            }
+            100% {
+                box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+                text-shadow: 0 0 30px rgba(255, 215, 0, 1);
+            }
+        }
+
+        .tile-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }        /* Enhanced VS Connectors */
+        .vs-connector {
+            background: linear-gradient(45deg, #ffc107, #ffed4e, #ffc107);
+            color: #000;
+            padding: 0.8rem 1.4rem;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+            border: 3px solid rgba(255, 215, 0, 0.4);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .vs-connector::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .vs-connector:hover {
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 12px 35px rgba(255, 193, 7, 0.7);
+        }
+
+        .vs-connector:hover::before {
+            opacity: 1;
+        }        .final-vs {
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            color: #000;
+            font-size: 1.4rem;
+            padding: 1rem 2rem;
+            border: 4px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            animation: finalVsPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes finalVsPulse {
+            0% {
+                box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+                transform: scale(1);
+            }
+            100% {
+                box-shadow: 0 15px 40px rgba(255, 215, 0, 0.7);
+                transform: scale(1.05);
+            }
+        }/* Arrow Styling - Enhanced Clarity */
+        .arrow-label {
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .arrow-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .arrow-label:hover::before {
+            left: 100%;
+        }
+
+        .winner-label {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A, #4CAF50);
+            color: white;
+            border-color: rgba(76, 175, 80, 0.5);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .winner-label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+        }
+
+        .loser-label {
+            background: linear-gradient(45deg, #ff9800, #ffb74d, #ff9800);
+            color: white;
+            border-color: rgba(255, 152, 0, 0.5);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .loser-label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.4);
+        }
+
+        .eliminator-winner-label {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A, #4CAF50);
+            color: white;
+            border-color: rgba(76, 175, 80, 0.5);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .eliminator-winner-label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+        }        .arrow-line {
+            border-radius: 3px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arrow-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: lineShimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes lineShimmer {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .winner-line-horizontal {
+            width: 120px;
+            height: 6px;
+            background: linear-gradient(90deg, #4CAF50, #66BB6A, #4CAF50);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .loser-line-vertical {
+            width: 6px;
+            height: 80px;
+            background: linear-gradient(180deg, #ff9800, #ffb74d, #ff9800);
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+        }
+
+        .eliminator-winner-line {
+            width: 120px;
+            height: 6px;
+            background: linear-gradient(90deg, #4CAF50, #66BB6A, #4CAF50);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .arrow-head {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffc107;
+            text-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
+            animation: arrowPulse 2.5s ease-in-out infinite;
+            filter: drop-shadow(0 4px 12px rgba(255, 193, 7, 0.4));
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.9; 
+                text-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
+            }
+            50% { 
+                transform: scale(1.15); 
+                opacity: 1; 
+                text-shadow: 0 0 30px rgba(255, 193, 7, 1);
+            }
+        }
+
+        /* Second Row Layout */
+        .second-row {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .eliminator-to-final-arrow {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }        /* Team Placeholders - Enhanced Visual Hierarchy */
+        .team-placeholder {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 18px;
+            border: 3px dashed rgba(255, 193, 7, 0.6);
+            color: #ffc107;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            min-width: 140px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.2);
+        }
+
+        .team-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 193, 7, 0.2), transparent);
+            animation: placeholderShimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes placeholderShimmer {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .team-placeholder:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 193, 7, 0.8);
+            box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
+        }
+
+        .loser-slot .team-placeholder {
+            border-color: rgba(255, 152, 0, 0.6);
+            color: #ff9800;
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.2);
+        }
+
+        .loser-slot .team-placeholder:hover {
+            border-color: rgba(255, 152, 0, 0.8);
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.3);
+        }        .finalist-slot .team-placeholder {
+            border-color: rgba(255, 215, 0, 0.7);
+            color: #ffd700;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+            font-size: 1rem;
+            padding: 1.1rem 1.8rem;
+        }
+
+        .finalist-slot .team-placeholder:hover {
+            border-color: rgba(255, 215, 0, 0.9);
+            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Final Matchup */
+        .final-matchup {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .finalist-slot .team-placeholder {
+            border-color: rgba(255, 215, 0, 0.6);
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .final-vs {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            font-size: 1.4rem;
+            padding: 1rem 2rem;
+        }        .championship-text {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            margin-top: 1.2rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            border-radius: 22px;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            animation: championshipGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes championshipGlow {
+            0% {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+                box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+            }
+            100% {
+                text-shadow: 0 0 30px rgba(255, 215, 0, 1);
+                box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            }
+        }        .match-teams {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            justify-content: center;
+        }.team-slot {
+            background: linear-gradient(135deg, #242b45, #1a233b);
+            padding: 1rem 0.8rem;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 85px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-slot::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 17px;
+            padding: 3px;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: subtract;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .team-slot:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .team-slot:hover::before {
+            opacity: 1;
+        }        .team-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .team-logo:hover {
+            transform: scale(1.15);
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4)) brightness(1.1);
+        }        .team-slot.team-1 {
+            border-color: #ffd700;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 237, 78, 0.08));
+            color: #ffd700;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .team-slot.team-1:hover {
+            border-color: #ffed4e;
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .team-slot.team-2 {
+            border-color: #c0c0c0;
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(230, 230, 230, 0.08));
+            color: #c0c0c0;
+            box-shadow: 0 8px 25px rgba(192, 192, 192, 0.2);
+        }
+
+        .team-slot.team-2:hover {
+            border-color: #e6e6e6;
+            box-shadow: 0 15px 40px rgba(192, 192, 192, 0.3), 0 0 20px rgba(192, 192, 192, 0.2);
+        }
+
+        .team-slot.team-3 {
+            border-color: #cd7f32;
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.15), rgba(218, 165, 32, 0.08));
+            color: #cd7f32;
+            box-shadow: 0 8px 25px rgba(205, 127, 50, 0.2);
+        }
+
+        .team-slot.team-3:hover {
+            border-color: #daa520;
+            box-shadow: 0 15px 40px rgba(205, 127, 50, 0.3), 0 0 20px rgba(205, 127, 50, 0.2);
+        }        .team-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .team-position {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin: 0;
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }.flow-connector {
+            background: linear-gradient(45deg, #ffc107, #ffed4e, #ffc107);
+            color: #000;
+            padding: 0.8rem 1.4rem;
+            border-radius: 50%;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4), 0 0 15px rgba(255, 193, 7, 0.2);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-connector::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            transition: transform 0.6s ease;
+        }
+
+        .flow-connector:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 8px 30px rgba(255, 193, 7, 0.6), 0 0 25px rgba(255, 193, 7, 0.4);
+        }
+
+        .flow-connector:hover::before {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        .flow-arrow-horizontal {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 0 0 auto;
+        }        .arrow-line-horizontal {
+            width: 90px;
+            height: 5px;
+            background: linear-gradient(90deg, #ffc107, #ffed4e, #ffc107);
+            border-radius: 3px;
+            box-shadow: 0 3px 10px rgba(255, 193, 7, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arrow-line-horizontal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .arrow-head-horizontal {
+            font-size: 3rem;
+            color: #ffc107;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 193, 7, 0.6);
+            animation: pulse 2s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(255, 193, 7, 0.3));
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }        .paths-section {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            align-items: center;
+            flex: 1;
+            padding: 1rem;
+        }
+
+        .winner-path-section,
+        .loser-eliminator-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.5rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            min-width: 220px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .winner-path-section::before,
+        .loser-eliminator-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 18px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .winner-path-section {
+            border-color: rgba(76, 175, 80, 0.4);
+            background: rgba(76, 175, 80, 0.08);
+        }
+
+        .winner-path-section::before {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05));
+        }
+
+        .winner-path-section:hover {
+            border-color: rgba(76, 175, 80, 0.6);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+        }
+
+        .winner-path-section:hover::before {
+            opacity: 1;
+        }
+
+        .loser-eliminator-section {
+            border-color: rgba(233, 69, 96, 0.4);
+            background: rgba(233, 69, 96, 0.08);
+        }
+
+        .loser-eliminator-section::before {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(233, 69, 96, 0.05));
+        }
+
+        .loser-eliminator-section:hover {
+            border-color: rgba(233, 69, 96, 0.6);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.2);
+        }
+
+        .loser-eliminator-section:hover::before {
+            opacity: 1;
+        }        .path-label {
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .winner-path-flow .path-label,
+        .winner-path-section .path-label {
+            background: linear-gradient(45deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.2));
+            color: #4CAF50;
+            border: 2px solid rgba(76, 175, 80, 0.4);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .winner-path-flow .path-label:hover,
+        .winner-path-section .path-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .loser-path-flow .path-label,
+        .loser-eliminator-section .path-label {
+            background: linear-gradient(45deg, rgba(233, 69, 96, 0.3), rgba(233, 69, 96, 0.2));
+            color: #e94560;
+            border: 2px solid rgba(233, 69, 96, 0.4);
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.2);
+        }
+
+        .loser-path-flow .path-label:hover,
+        .loser-eliminator-section .path-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.3);
+        }
+
+        .path-arrow-down {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffc107;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .path-destination {
+            background: linear-gradient(45deg, #e94560, #ff416c, #e94560);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1rem;
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+            letter-spacing: 1px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .path-destination:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.6);
+        }.eliminator-match {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 193, 7, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .eliminator-match::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 193, 7, 0.1), transparent, rgba(255, 193, 7, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .eliminator-match:hover {
+            border-color: rgba(255, 193, 7, 0.5);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
+        }
+
+        .eliminator-match:hover::before {
+            opacity: 1;
+        }
+
+        .vs-indicator {
+            background: linear-gradient(45deg, #ffc107, #ffed4e, #ffc107);
+            color: #000;
+            padding: 0.6rem;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1rem;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .vs-indicator:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.6);
+        }        .eliminator-label {
+            background: linear-gradient(45deg, rgba(233, 69, 96, 0.3), rgba(255, 65, 108, 0.2));
+            color: #ff416c;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 2px solid rgba(233, 69, 96, 0.4);
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .eliminator-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+        }
+
+        .flow-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arrow-line {
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(180deg, #ffc107, #ffed4e);
+            border-radius: 2px;
+        }
+
+        .arrow-text {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }        .eliminator-label {
+            background: rgba(233, 69, 96, 0.2);
+            color: #e94560;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }        /* Responsive Grid Layout */
+        @media (max-width: 1200px) {
+            .playoff-grid {
+                grid-template-columns: 1fr auto 1fr 0.4fr;
+                gap: 2.5rem;
+                max-width: 1000px;
+            }
+            
+            .tournament-tile {
+                min-width: 280px;
+                padding: 1.4rem;
+            }
+            
+            .final-tile {
+                min-width: 340px;
+            }
+            
+            .winner-line-horizontal,
+            .eliminator-winner-line {
+                width: 100px;
+            }
+        }@media (max-width: 992px) {
+            .playoff-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+                gap: 3rem;
+                max-width: 500px;
+            }
+            
+            .left-column {
+                flex-direction: row;
+                gap: 3rem;
+                justify-content: space-between;
+            }
+            
+            .right-column {
+                margin-top: 2rem;
+                grid-column: auto;
+            }
+            
+            /* Reposition arrows for mobile */
+            .qualifier-to-final {
+                top: 60%;
+                left: 20%;
+                right: 20%;
+                transform: rotate(90deg);
+            }
+            
+            .qualifier-to-eliminator {
+                top: 20%;
+                left: 45%;
+                width: 10%;
+                height: 15%;
+            }
+            
+            .eliminator-to-final {
+                bottom: 5%;
+                left: 20%;
+                right: 20%;
+                transform: rotate(90deg);
+            }
+            
+            .winner-line-horizontal,
+            .eliminator-winner-line {
+                width: 80px;
+                height: 4px;
+            }
+            
+            .loser-line-vertical {
+                width: 80px;
+                height: 4px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .left-column {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .tournament-tile {
+                min-width: 280px;
+                padding: 1.2rem;
+            }
+            
+            .final-tile {
+                min-width: 320px;
+            }
+            
+            .tile-header h3 {
+                font-size: 1.4rem;
+            }
+            
+            .final-tile .tile-header h3 {
+                font-size: 1.8rem;
+            }
+            
+            .match-teams {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .final-matchup {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .vs-connector {
+                transform: rotate(90deg);
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            
+            .final-vs {
+                transform: none;
+                font-size: 1.2rem;
+            }
+            
+            /* Hide complex arrows on small screens */
+            .arrow-connections {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tournament-tile {
+                min-width: 250px;
+                padding: 1rem;
+            }
+            
+            .final-tile {
+                min-width: 280px;
+            }
+            
+            .tile-header h3 {
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+            }
+            
+            .final-tile .tile-header h3 {
+                font-size: 1.5rem;
+            }
+            
+            .team-slot {
+                min-width: 80px;
+                padding: 0.8rem;
+            }
+            
+            .team-logo {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .team-name {
+                font-size: 0.9rem;
+            }
+            
+            .team-position {
+                font-size: 0.7rem;
+            }
+            
+            .team-placeholder {
+                padding: 0.8rem 1rem;
+                font-size: 0.8rem;
+                min-width: 100px;
+            }
+            
+            .championship-text {
+                font-size: 0.9rem;
+                letter-spacing: 1px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .playoff-flow-diagram {
+                padding: 1.5rem;
+            }
+            
+            .match-teams {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .flow-connector {
+                transform: rotate(90deg);
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+            
+            .team-slot {
+                min-width: 80px;
+                padding: 0.8rem;
+            }
+            
+            .team-logo {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .team-name {
+                font-size: 0.9rem;
+            }
+            
+            .team-position {
+                font-size: 0.6rem;
+            }
+            
+            .paths-section {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .eliminator-match {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .playoff-flow-diagram h2 {
+                font-size: 1.4rem;
+            }
+            
+            .team-slot {
+                min-width: 70px;
+                padding: 0.6rem;
+            }
+            
+            .team-logo {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .team-name {
+                font-size: 0.8rem;
+            }
+            
+            .team-position {
+                font-size: 0.55rem;
+            }
+            
+            .flow-connector {
+                width: 25px;
+                height: 25px;
+                font-size: 0.7rem;
+                padding: 0.3rem;
+            }
+            
+            .arrow-line-horizontal {
+                width: 2px;
+                height: 30px;
+            }
+            
+            .match-label {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Back Navigation Styles */
+        .back-navigation {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .back-to-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.1));
+            border: 2px solid rgba(255, 193, 7, 0.3);
+            border-radius: 25px;
+            color: #ffc107;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .back-to-home:hover {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.3), rgba(255, 193, 7, 0.2));
+            border-color: rgba(255, 193, 7, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.3);
+            color: #ffed4e;
+        }
+
+        .back-arrow {
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-home:hover .back-arrow {
+            transform: translateX(-3px);
+        }
+
+        .back-text {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive back navigation */
+        @media (max-width: 768px) {
+            .back-to-home {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                gap: 0.6rem;
+            }
+            
+            .back-arrow {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-navigation {
+                margin-bottom: 1.5rem;
+            }
+            
+            .back-to-home {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+                gap: 0.5rem;
+            }
+            
+            .back-arrow {
+                font-size: 1.2rem;
+            }
+            
+            .back-text {
+                letter-spacing: 0.5px;
+            }
+        }
+
+        /* Flow Path Indicators - Enhanced Clarity */
+        .flow-indicator {
+            position: absolute;
+            background: linear-gradient(45deg, rgba(255, 193, 7, 0.9), rgba(255, 237, 78, 0.9));
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(45deg, #ffc107, #ffed4e);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            z-index: 5;
+        }
+
+        .playoff-explanation {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border: 2px solid rgba(255, 193, 7, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .playoff-explanation h3 {
+            color: #ffc107;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+        }
+
+        .playoff-explanation p {
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0.8rem 0;
+        }
+
+        .playoff-explanation .highlight {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        /* Enhanced Tournament Grid for better clarity */
+        .tournament-flow {
+            position: relative;
+        }
+
+        .tournament-flow::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 80%;
+            background: linear-gradient(180deg, rgba(255, 193, 7, 0.3), rgba(255, 193, 7, 0.1));
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 1;
+        }
+    </style>
+
+</head>
+<body>    <div class="playoffs-container">
+        <!-- Back Navigation -->
+        <nav class="back-navigation">
+            <a href="index.html" class="back-to-home">
+                <span class="back-arrow">←</span>
+                <span class="back-text">Back to Home</span>
+            </a>
+        </nav>
+        
+        <h1>RC24 Tri Series League Playoffs</h1>        <!-- Playoff Flow Diagram -->
+        <div class="playoff-flow-diagram">
+            <h2>Playoff Structure</h2>
+            
+            <!-- Playoff Explanation -->
+            <div class="playoff-explanation">
+                <h3>How the Playoffs Work</h3>
+                <p>The <span class="highlight">top 3 teams</span> from the league stage qualify for the playoffs. The playoff system gives <span class="highlight">multiple chances</span> to the top teams while maintaining competitive balance.</p>
+                <p><strong>Step 1:</strong> Top 2 teams play in the <span class="highlight">Qualifier</span> for direct entry to Final</p>
+                <p><strong>Step 2:</strong> Qualifier loser gets a second chance in the <span class="highlight">Eliminator</span> against 3rd place</p>
+                <p><strong>Step 3:</strong> Qualifier winner and Eliminator winner meet in the <span class="highlight">Grand Final</span></p>
+            </div>
+            
+            <div class="tournament-flow">
+                <div class="playoff-grid">
+                    <!-- Left Column -->
+                    <div class="left-column">
+                        <!-- Qualifier Tile (Top Left) -->
+                        <div class="tournament-tile qualifier-tile">
+                            <div class="step-number">1</div>
+                            <div class="tile-header">
+                                <h3>QUALIFIER</h3>
+                            </div>
+                            <div class="tile-content">
+                                <div class="match-teams">
+                                    <div class="team-slot team-1">
+                                        <img src="Royal_Challengers_Bengaluru_Logo.svg.png" alt="RCB" class="team-logo">
+                                        <span class="team-name">RCB</span>
+                                        <span class="team-position">1st Place</span>
+                                    </div>
+                                    <div class="vs-connector">VS</div>
+                                    <div class="team-slot team-2">
+                                        <img src="Chennai_Super_Kings_Logo.svg.png" alt="CSK" class="team-logo">
+                                        <span class="team-name">CSK</span>
+                                        <span class="team-position">2nd Place</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Eliminator Tile (Bottom Left) -->
+                        <div class="tournament-tile eliminator-tile">
+                            <div class="step-number">2</div>
+                            <div class="tile-header">
+                                <h3>ELIMINATOR</h3>
+                            </div>
+                            <div class="tile-content">
+                                <div class="match-teams">
+                                    <div class="team-slot loser-slot">
+                                        <div class="team-placeholder">QUALIFIER LOSER</div>
+                                    </div>
+                                    <div class="vs-connector">VS</div>
+                                    <div class="team-slot team-3">
+                                        <img src="Mumbai_Indians_Logo.svg.png" alt="MI" class="team-logo">
+                                        <span class="team-name">MI</span>
+                                        <span class="team-position">3rd Place</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Connecting Arrows -->
+                    <div class="arrow-connections">
+                        <!-- Winner Arrow: Qualifier → Final -->
+                        <div class="arrow-path qualifier-to-final">
+                            <div class="arrow-label winner-label">WINNER</div>
+                            <div class="arrow-line winner-line-horizontal"></div>
+                            <div class="arrow-head">→</div>
+                        </div>
+
+                        <!-- Loser Arrow: Qualifier → Eliminator -->
+                        <div class="arrow-path qualifier-to-eliminator">
+                            <div class="arrow-label loser-label">LOSER</div>
+                            <div class="arrow-line loser-line-vertical"></div>
+                            <div class="arrow-head">↓</div>
+                        </div>
+
+                        <!-- Eliminator Winner Arrow: Eliminator → Final -->
+                        <div class="arrow-path eliminator-to-final">
+                            <div class="arrow-label eliminator-winner-label">WINNER</div>
+                            <div class="arrow-line eliminator-winner-line"></div>
+                            <div class="arrow-head">→</div>
+                        </div>
+                    </div>                    <!-- Right Column -->
+                    <div class="right-column">
+                        <!-- Final Tile (Middle Right) -->
+                        <div class="tournament-tile final-tile">
+                            <div class="step-number">3</div>
+                            <div class="tile-header">
+                                <h3>🏆 GRAND FINAL</h3>
+                            </div>
+                            <div class="tile-content">
+                                <div class="final-matchup">
+                                    <div class="finalist-slot">
+                                        <div class="team-placeholder">QUALIFIER WINNER</div>
+                                    </div>
+                                    <div class="vs-connector final-vs">VS</div>
+                                    <div class="finalist-slot">
+                                        <div class="team-placeholder">ELIMINATOR WINNER</div>
+                                    </div>
+                                </div>
+                                <div class="championship-text">RC24 TRI SERIES CHAMPION</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bracket-flow">
+            <!-- Qualifier -->
+            <div class="playoff-stage">
+                <h2>Qualifier</h2>
+                <div class="match-group">
+                    <div class="match-box">
+                        <h3>Qualifier Match</h3>
+                        <p>Team 1 vs Team 2</p>
+                        <p><strong style="color: #ff416c;">RCB vs CSK</strong></p>
+                        <div class="team-positions">
+                            <span class="position-badge first">1st</span>
+                            <span class="vs-text">vs</span>
+                            <span class="position-badge second">2nd</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="match-outcome">
+                    <span class="winner-path">Winner</span> advances to Final |
+                    <span class="loser-path">Loser</span> goes to Eliminator
+                </p>
+            </div>
+
+            <!-- Eliminator -->
+            <div class="playoff-stage">
+                <h2>Eliminator</h2>
+                <div class="match-group">
+                    <div class="match-box">
+                        <h3>Eliminator Match</h3>
+                        <p>Loser of Qualifier vs Team 3</p>
+                        <p><strong style="color: #ff416c;">Loser vs MI</strong></p>
+                        <div class="team-positions">
+                            <span class="position-badge loser">Q.Loser</span>
+                            <span class="vs-text">vs</span>
+                            <span class="position-badge third">3rd</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="match-outcome">
+                    <span class="winner-path">Winner</span> advances to Final |
+                    <span class="loser-path">Loser</span> is Eliminated
+                </p>
+            </div>
+
+            <!-- Final -->
+            <div class="playoff-stage">
+                <h2>The Grand Final</h2>
+                <div class="match-group">
+                    <div class="match-box final">
+                        <h3>🏆 Championship Final</h3>
+                        <p>Winner of Qualifier vs Winner of Eliminator</p>
+                        <div class="final-teams">
+                            <span class="finalist">Qualifier Winner</span>
+                            <span class="vs-final">vs</span>
+                            <span class="finalist">Eliminator Winner</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 1.2rem; color: #ffc107; font-weight: bold;">
+                    🏆 RC24 Tri Series League Champion! 🏆
+                </p>
+            </div>        
+        </div>
+    </div>
+</body>
+</html>

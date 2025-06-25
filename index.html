@@ -17,14 +17,14 @@
     </header>
 
     <nav class="main-nav">
-        <div class="container">
+        <div class="container">            
             <ul>
                 <li><a href="#schedule">Schedule</a></li>
                 <li><a href="#scorecard">Scorecard</a></li>
                 <li><a href="#teams">Teams</a></li>
                 <li><a href="#points-table">Points Table</a></li>
+                <li><a href="playoffs.html" class="playoffs-nav-link">🏆 Playoffs</a></li>
                 <li><a href="#rules">Rules</a></li>
-
             </ul>
             <div class="theme-switch-wrapper">
                 <label class="theme-switch" for="theme-checkbox">
@@ -37,16 +37,29 @@
     </nav>
 
     <main class="container">
+        <!-- Big Playoffs Announcement -->
+        <section class="playoffs-announcement">
+            <div class="announcement-content">
+                <h1 class="announcement-title">🏆 TIME FOR PLAYOFFS! 🏆</h1>
+                <p class="announcement-text">The league stage is complete! Get ready for the ultimate showdown as the top teams battle it out for the championship!</p>
+                <a href="playoffs.html" class="playoffs-cta-button">VIEW PLAYOFFS BRACKET</a>
+            </div>
+        </section>
+
         <section id="schedule" class="section-card">
-            <h2>Match Schedule</h2>
-            <div id="match-schedule-container">
+            <h2>Match Schedule</h2>            <div id="match-schedule-container">
                 <!-- Matches will be dynamically inserted here by JavaScript -->
+                <div class="match-card" style="background: red; color: white;">
+                    <h3>Test Match Card</h3>
+                    <p>This is a test to see if the container is visible</p>
+                </div>
             </div>
         </section>
 
         <section id="scorecard" class="section-card">
             <h2>Latest Scorecard</h2>
             <div class="scorecard-content">
+
                 <!-- Match 1 -->
                 <div class="match-entry" role="button" tabindex="0" aria-expanded="false" aria-controls="match1-summary">
                     <div class="match-entry-header">
@@ -94,9 +107,7 @@
                                 </div>
                             </div>
                         </div>
-
                         <hr class="innings-divider">
-
                         <div class="innings-summary">
                             <h5 class="team-name-summary">
                                 <span>Chennai Super Kings<span class="toss-icon" title="CSK won the toss" style="color: dodgerblue;">🪙Chose to bowl</span></span>
@@ -124,7 +135,8 @@
                         <p class="match-result-final">Royal Challengers Bengaluru WON BY 14 RUNS</p>
                     </div>
                 </div>
-                <hr>
+
+                
                 <!-- Match 2 -->
                 <div class="match-entry" role="button" tabindex="0" aria-expanded="false" aria-controls="match2-summary">
                     <div class="match-entry-header">
@@ -148,63 +160,481 @@
                     <div class="score-details detailed-summary">
                         <h4 class="summary-main-title">MATCH SUMMARY</h4>
                         <p class="summary-subtitle">RC24 Tri Series League 2025, Match 2 - London Stadium</p>
-
                         <div class="innings-summary">
                             <h5 class="team-name-summary">
-                                <span>Chennai Super Kings <span class="toss-icon" title="CSK won the toss">🪙</span></span>
-                                <span class="team-score-display">- (Yet to Bat)</span>
+                                <span>Chennai Super Kings</span>
+                                <span class="team-score-display">34-7 (5.0 Overs)</span>
                             </h5>
                             <div class="performance-wrap">
                                 <div class="performance-category batsmen">
                                     <p class="category-title"></p>
                                     <ul class="player-list">
-                                        <li>Player A: -</li>
-                                        <li>Player B: -</li>
-                                        <li>Player C: -</li>
+                                        <li>R. Gaikwad: 15 (10)</li>
+                                        <li>D. Conway: 8 (6)</li>
+                                        <li>MS. Dhoni: 5* (4)</li>
                                     </ul>
                                 </div>
                                 <div class="performance-category bowlers">
                                     <p class="category-title"></p>
                                     <ul class="player-list">
-                                        <li>Bowler X: -</li>
-                                        <li>Bowler Y: -</li>
-                                        <li>Bowler Z: -</li>
+                                        <li>J. Bumrah: 3-10 (1.0)</li>
+                                        <li>P. Chawla: 2-12 (1.0)</li>
+                                        <li>H. Shokeen: 1-5 (1.0)</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-
                         <hr class="innings-divider">
-
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Mumbai Indians<span class="toss-icon" title="MI won the toss" style="color: dodgerblue;">🪙Chose to bowl</span></span>
+                                <span class="team-score-display">20-6 (5.0 Overs)</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <p class="category-title"></p>
+                                    <ul class="player-list">
+                                        <li>R. Sharma: 7 (8)</li>
+                                        <li>I. Kishan: 5 (6)</li>
+                                        <li>S. Yadav: 3 (4)</li>
+                                    </ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <p class="category-title"></p>
+                                    <ul class="player-list">
+                                        <li>D. Chahar: 3-8 (1.0)</li>
+                                        <li>M. Theekshana: 2-5 (1.0)</li>
+                                        <li>R. Jadeja: 1-7 (1.0)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="match-result-final">Chennai Super Kings WON BY 14 RUNS</p>
+                    </div>
+                </div>
+                
+                <!-- Match 3 -->
+                <div class="match-entry" role="button" tabindex="0" aria-expanded="false" aria-controls="match3-summary">
+                    <div class="match-entry-header">
+                        <p><strong>Match 3 - (June 19, 2025)</strong></p>
+                    </div>
+                    <!-- Team logos and names (always visible) -->
+                    <div class="team-logos-container">
+                        <div class="team-presentation">
+                            <p class="summary-team-name">Mumbai Indians</p>
+                            <img src="Mumbai_Indians_Logo.svg.png" alt="MI Logo" class="summary-team-logo">
+                        </div>
+                        <span class="vs-separator">vs</span>
+                        <div class="team-presentation">
+                            <img src="Royal_Challengers_Bengaluru_Logo.svg.png" alt="RCB Logo" class="summary-team-logo">
+                            <p class="summary-team-name">Royal Challengers Bengaluru</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hidden match summary for Match 3 -->
+                <div id="match3-summary" class="match-summary">
+                    <div class="score-details detailed-summary">
+                        <h4 class="summary-main-title">MATCH SUMMARY</h4>
+                        <p class="summary-subtitle">RC24 Tri Series League 2025, Match 3 - Sydney Stadium</p>
                         <div class="innings-summary">
                             <h5 class="team-name-summary">
                                 <span>Mumbai Indians</span>
-                                <span class="team-score-display">- (Yet to Bat)</span>
+                                <span class="team-score-display">34-7 (5.0 Overs)</span>
                             </h5>
                             <div class="performance-wrap">
                                 <div class="performance-category batsmen">
                                     <p class="category-title"></p>
                                     <ul class="player-list">
-                                        <li>Player D: -</li>
-                                        <li>Player E: -</li>
-                                        <li>Player F: -</li>
+                                        <li>R. Sharma: 15 (10)</li>
+                                        <li>I. Kishan: 8 (6)</li>
+                                        <li>S. Yadav: 5* (4)</li>
                                     </ul>
                                 </div>
                                 <div class="performance-category bowlers">
                                     <p class="category-title"></p>
                                     <ul class="player-list">
-                                        <li>Bowler A: -</li>
-                                        <li>Bowler B: -</li>
-                                        <li>Bowler C: -</li>
+                                        <li>M. Siraj: 3-10 (1.0)</li>
+                                        <li>W. Hasaranga: 2-12 (1.0)</li>
+                                        <li>J. Hazlewood: 1-5 (1.0)</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+                        <hr class="innings-divider">
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Royal Challengers Bengaluru<span class="toss-icon" title="RCB won the toss" style="color: dodgerblue;">🪙Chose to bowl</span></span>
+                                <span class="team-score-display">20-6 (5.0 Overs)</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <p class="category-title"></p>
+                                    <ul class="player-list">
+                                        <li>V. Kohli: 7 (8)</li>
+                                        <li>F. du Plessis: 5 (6)</li>
+                                        <li>G. Maxwell: 3 (4)</li>
+                                    </ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <p class="category-title"></p>
+                                    <ul class="player-list">
+                                        <li>J. Bumrah: 3-8 (1.0)</li>
+                                        <li>P. Chawla: 2-5 (1.0)</li>
+                                        <li>H. Shokeen: 1-7 (1.0)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="match-result-final">Mumbai Indians WON BY 14 RUNS</p>
+                    </div>
+                </div>                
 
-                        <p class="match-result-final">Match to be played.</p>
+                <!-- Match 4 -->
+                <div class="match-entry" role="button" tabindex="0" aria-expanded="false" aria-controls="match4-summary">
+                    <div class="match-entry-header">
+                        <p><strong>Match 4 - (June 20, 2025)</strong></p>
+                    </div>
+                    <!-- Team logos and names (always visible) -->
+                    <div class="team-logos-container">
+                        <div class="team-presentation">
+                            <p class="summary-team-name">Chennai Super Kings</p>
+                            <img src="Chennai_Super_Kings_Logo.svg.png" alt="CSK Logo" class="summary-team-logo">
+                        </div>
+                        <span class="vs-separator">vs</span>
+                        <div class="team-presentation">
+                            <img src="Royal_Challengers_Bengaluru_Logo.svg.png" alt="RCB Logo" class="summary-team-logo">
+                            <p class="summary-team-name">Royal Challengers Bengaluru</p>
+                        </div>
                     </div>
                 </div>
-                <!-- Add more match scorecards as the tournament progresses -->
+                <!-- Hidden match summary for Match 4 -->
+                <div id="match4-summary" class="match-summary">
+                    <div class="score-details detailed-summary">
+                        <h4 class="summary-main-title">MATCH SUMMARY</h4>
+                        <p class="summary-subtitle">RC24 Tri Series League 2025, Match 4 - Perth Stadium</p>
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Chennai Super Kings</span>
+                                <span class="team-score-display">34-7 (5.0 Overs)</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <p class="category-title"></p>
+                                    <ul class="player-list">
+                                        <li>R. Gaikwad: 15 (10)</li>
+                                        <li>D. Conway: 8 (6)</li>
+                                        <li>MS. Dhoni: 5* (4)</li>
+                                    </ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <p class="category-title"></p>
+                                    <ul class="player-list">
+                                        <li>M. Siraj: 3-10 (1.0)</li>
+                                        <li>W. Hasaranga: 2-12 (1.0)</li>
+                                        <li>J. Hazlewood: 1-5 (1.0)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="innings-divider">
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Royal Challengers Bengaluru<span class="toss-icon" title="RCB won the toss" style="color: dodgerblue;">🪙Chose to bowl</span></span>
+                                <span class="team-score-display">20-6 (5.0 Overs)</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <p class="category-title"></p>
+                                    <ul class="player-list">
+                                        <li>V. Kohli: 7 (8)</li>
+                                        <li>F. du Plessis: 5 (6)</li>
+                                        <li>G. Maxwell: 3 (4)</li>
+                                    </ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <p class="category-title"></p>
+                                    <ul class="player-list">
+                                        <li>D. Chahar: 3-8 (1.0)</li>
+                                        <li>M. Theekshana: 2-5 (1.0)</li>
+                                        <li>R. Jadeja: 1-7 (1.0)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="match-result-final">Chennai Super Kings WON BY 14 RUNS</p>
+                    </div>
+                </div>
+                
+                <!-- Match 5 -->
+                <div class="match-entry" role="button" tabindex="0" aria-expanded="false" aria-controls="match5-summary">
+                    <div class="match-entry-header">
+                        <p><strong>Match 5 - (June 21, 2025)</strong></p>
+                    </div>
+                    <div class="team-logos-container">
+                        <div class="team-presentation">
+                            <p class="summary-team-name">Royal Challengers Bengaluru</p>
+                            <img src="Royal_Challengers_Bengaluru_Logo.svg.png" alt="RCB Logo" class="summary-team-logo">
+                        </div>
+                        <span class="vs-separator">vs</span>
+                        <div class="team-presentation">
+                            <img src="Mumbai_Indians_Logo.svg.png" alt="MI Logo" class="summary-team-logo">
+                            <p class="summary-team-name">Mumbai Indians</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="match5-summary" class="match-summary">
+                    <div class="score-details detailed-summary">
+                        <h4 class="summary-main-title">MATCH SUMMARY</h4>
+                        <p class="summary-subtitle">RC24 Tri Series League 2025, Match 5 - TBA</p>
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Royal Challengers Bengaluru</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="innings-divider">
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Mumbai Indians</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="match-result-final">Result: To be played</p>
+                    </div>
+                </div>
+
+                <!-- Match 6 -->
+                <div class="match-entry" role="button" tabindex="0" aria-expanded="false" aria-controls="match6-summary">
+                    <div class="match-entry-header">
+                        <p><strong>Match 6 - (June 22, 2025)</strong></p>
+                    </div>
+                    <div class="team-logos-container">
+                        <div class="team-presentation">
+                            <p class="summary-team-name">Mumbai Indians</p>
+                            <img src="Mumbai_Indians_Logo.svg.png" alt="MI Logo" class="summary-team-logo">
+                        </div>
+                        <span class="vs-separator">vs</span>
+                        <div class="team-presentation">
+                            <img src="Chennai_Super_Kings_Logo.svg.png" alt="CSK Logo" class="summary-team-logo">
+                            <p class="summary-team-name">Chennai Super Kings</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="match6-summary" class="match-summary">
+                    <div class="score-details detailed-summary">
+                        <h4 class="summary-main-title">MATCH SUMMARY</h4>
+                        <p class="summary-subtitle">RC24 Tri Series League 2025, Match 6 - TBA</p>
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Mumbai Indians</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="innings-divider">
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Chennai Super Kings</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="match-result-final">Result: To be played</p>
+                    </div>
+                </div>
+
+                <!-- Playoffs: Qualifier -->
+                <div class="match-entry" role="button" tabindex="0" aria-expanded="false" aria-controls="qualifier-summary">
+                    <div class="match-entry-header">
+                        <p><strong>Playoffs - Qualifier</strong></p>
+                    </div>
+                    <div class="team-logos-container">
+                        <div class="team-presentation">
+                            <p class="summary-team-name">1st Place</p>
+                            <img src="TSL_logo_bg.png" alt="1st Place" class="summary-team-logo">
+                        </div>
+                        <span class="vs-separator">vs</span>
+                        <div class="team-presentation">
+                            <img src="TSL_logo_bg.png" alt="2nd Place" class="summary-team-logo">
+                            <p class="summary-team-name">2nd Place</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="qualifier-summary" class="match-summary">
+                    <div class="score-details detailed-summary">
+                        <h4 class="summary-main-title">PLAYOFFS - QUALIFIER</h4>
+                        <p class="summary-subtitle">RC24 Tri Series League 2025, Playoffs Qualifier - TBA</p>
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>1st Place</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="innings-divider">
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>2nd Place</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="match-result-final">Result: -</p>
+                    </div>
+                </div>
+
+                <!-- Playoffs: Eliminator -->
+                <div class="match-entry" role="button" tabindex="0" aria-expanded="false" aria-controls="eliminator-summary">
+                    <div class="match-entry-header">
+                        <p><strong>Playoffs - Eliminator</strong></p>
+                    </div>
+                    <div class="team-logos-container">
+                        <div class="team-presentation">
+                            <p class="summary-team-name">Loser of Qualifier</p>
+                            <img src="TSL_logo_bg.png" alt="Loser Qualifier" class="summary-team-logo">
+                        </div>
+                        <span class="vs-separator">vs</span>
+                        <div class="team-presentation">
+                            <img src="TSL_logo_bg.png" alt="3rd Place" class="summary-team-logo">
+                            <p class="summary-team-name">3rd Place</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="eliminator-summary" class="match-summary">
+                    <div class="score-details detailed-summary">
+                        <h4 class="summary-main-title">PLAYOFFS - ELIMINATOR</h4>
+                        <p class="summary-subtitle">RC24 Tri Series League 2025, Playoffs Eliminator - TBA</p>
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Loser of Qualifier</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="innings-divider">
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>3rd Place</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="match-result-final">Result: -</p>
+                    </div>
+                </div>
+
+                <!-- Playoffs: Final -->
+                <div class="match-entry" role="button" tabindex="0" aria-expanded="false" aria-controls="final-summary">
+                    <div class="match-entry-header">
+                        <p><strong>Playoffs - Final</strong></p>
+                    </div>
+                    <div class="team-logos-container">
+                        <div class="team-presentation">
+                            <p class="summary-team-name">Winner of Qualifier</p>
+                            <img src="TSL_logo_bg.png" alt="Winner Qualifier" class="summary-team-logo">
+                        </div>
+                        <span class="vs-separator">vs</span>
+                        <div class="team-presentation">
+                            <img src="TSL_logo_bg.png" alt="Winner Eliminator" class="summary-team-logo">
+                            <p class="summary-team-name">Winner of Eliminator</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="final-summary" class="match-summary">
+                    <div class="score-details detailed-summary">
+                        <h4 class="summary-main-title">PLAYOFFS - FINAL</h4>
+                        <p class="summary-subtitle">RC24 Tri Series League 2025, Playoffs Final - TBA</p>
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Winner of Qualifier</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="innings-divider">
+                        <div class="innings-summary">
+                            <h5 class="team-name-summary">
+                                <span>Winner of Eliminator</span>
+                                <span class="team-score-display">-</span>
+                            </h5>
+                            <div class="performance-wrap">
+                                <div class="performance-category batsmen">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                                <div class="performance-category bowlers">
+                                    <ul class="player-list"><li>-</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="match-result-final">Result: -</p>
+                    </div>
+                </div>
+
             </div>
         </section>
         <section id="teams" class="section-card">
@@ -234,19 +664,21 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Team</th>
-                            <th>Played</th>
-                            <th>Won</th>
-                            <th>Lost</th>
-                            <th>Points</th>
-                            <th>NRR</th>
+                            <th style="font-size:1.15em;font-weight:900;letter-spacing:1px;background:rgba(255,193,7,0.12);color:inherit;">Team</th>
+                            <th style="font-size:1.15em;font-weight:900;letter-spacing:1px;background:rgba(255,193,7,0.12);color:inherit;">Played</th>
+                            <th style="font-size:1.15em;font-weight:900;letter-spacing:1px;background:rgba(255,193,7,0.12);color:inherit;">Won</th>
+                            <th style="font-size:1.15em;font-weight:900;letter-spacing:1px;background:rgba(255,193,7,0.12);color:inherit;">Lost</th>
+                            <th style="font-size:1.15em;font-weight:900;letter-spacing:1px;background:rgba(255,193,7,0.12);color:inherit;">Tie</th>
+                            <th style="font-size:1.15em;font-weight:900;letter-spacing:1px;background:rgba(255,193,7,0.12);color:inherit;">Points</th>
+                            <th style="font-size:1.15em;font-weight:900;letter-spacing:1px;background:rgba(255,193,7,0.12);color:inherit;">NRR</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Example Row - Populate with actual data -->
-                        <tr><td style="color: red;">Team RCB</td><td>1</td><td>1</td><td>0</td><td>2</td><td>+0.467</td></tr>
-                        <tr><td style="color: blue;">Team MI</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0.000</td></tr>
-                        <tr><td style="color: yellow;">Team CSK</td><td>1</td><td>0</td><td>1</td><td>0</td><td>-0.467</td></tr>
+                        <tr><td style="color: red; font-size:1.13em; font-weight:900; letter-spacing:1.5px; text-shadow:0 1px 4px rgba(0,0,0,0.13);">Team RCB</td><td>4</td><td>3</td><td>0</td><td>1</td><td>7</td><td>+3.290</td></tr>
+                        <tr><td style="color: yellow; font-size:1.13em; font-weight:900; letter-spacing:1.5px; text-shadow:0 1px 4px rgba(0,0,0,0.13);">Team CSK</td><td>4</td><td>2</td><td>2</td><td>0</td><td>4</td><td>-3.129</td></tr>
+                        <tr><td style="color: blue; font-size:1.13em; font-weight:900; letter-spacing:1.5px; text-shadow:0 1px 4px rgba(0,0,0,0.13);">Team MI</td><td>4</td><td>0</td><td>3</td><td>1</td><td>1</td><td>-6.188</td></tr>
+                        
                     </tbody>
                 </table>
             </div>
@@ -258,7 +690,7 @@
                 <li>All matches are 5 overs per side.</li>
                 <li>Each player will represent their chosen team (RCB, CSK, MI).</li>
                 <li>The tournament will follow a round-robin format.</li>
-                <li>Points System: Win (2 points), Loss (0 points).</li>
+                <li>Points System: Win (2 points), Loss (0 points), Tie (1 point).</li>
                 <li>Tie-breaker: Net Run Rate (NRR).</li>
                 <li>Fair play and sportsmanship are highly encouraged.</li>
             </ul>
