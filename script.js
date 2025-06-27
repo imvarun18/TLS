@@ -249,9 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize header decorations when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        initializeHeaderDecorations();
-    });
+    initializeHeaderDecorations();
 
     // Re-initialize on window resize to ensure proper positioning
     window.addEventListener('resize', function() {
