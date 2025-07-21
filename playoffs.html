@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RC24 Tri Series League - Playoffs</title>
+    <title>RC24 Virtual Willow Championship - Playoffs</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
         /* General Body and Container Styles */
@@ -15,8 +15,7 @@
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239CA3AF' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 28h28v2H2zM0 60h30V58H0zm0-4h30V54H0zm0-4h30V50H0zm0-4h30V46H0zm0-4h30V42H0zm0-4h30V38H0zm0-4h30V34H0zm0-4h30V30H0zm0-4h30V26H0zm0-4h30V22H0zm0-4h30V18H0zm0-4h30V14H0zm0-4h30V10H0zm0-4h30V6H0z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             background-attachment: fixed;
             display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align to top */
+            justify-content: flex-start; /* Align to top */
             min-height: 100vh;
             padding: 2rem;
             box-sizing: border-box;
@@ -573,7 +572,7 @@
             min-height: 500px;
         }        .playoff-grid {
             display: grid;
-            grid-template-columns: 1fr auto 1fr 0.5fr;
+            grid-template-columns: 1fr auto 1fr 1fr;
             grid-template-rows: 1fr;
             gap: 2rem;
             align-items: center;
@@ -1857,24 +1856,7 @@
             white-space: nowrap;
         }
 
-        .step-number {
-            position: absolute;
-            top: -15px;
-            right: -15px;
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(45deg, #ffc107, #ffed4e);
-            color: #000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
-            border: 2px solid rgba(255, 215, 0, 0.6);
-            z-index: 5;
-        }
+        
 
         .playoff-explanation {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
@@ -1923,190 +1905,294 @@
             transform: translateX(-50%) translateY(-50%);
             z-index: 1;
         }
-    </style>
 
+        /* --- NEW STYLES FOR INTERACTIVITY --- */
+
+        /* Champion Banner */
+        .champion-banner {
+            background: linear-gradient(45deg, #ffd700, #f0c040);
+            color: #333;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 2.5rem;
+            animation: champion-glow 2s infinite alternate;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .champion-banner img {
+            height: 120px;
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(0, 0, 0, 0.4));
+            animation: logo-pulse 2s infinite alternate;
+        }
+
+        @keyframes logo-pulse {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes champion-glow {
+            from {
+                box-shadow: 0 0 15px #ffd700, 0 0 25px rgba(255,215,0,0.5);
+            }
+            to {
+                box-shadow: 0 0 25px #f0c040, 0 0 40px #fff, 0 0 50px #ffd700;
+            }
+        }
+
+        /* Scorecard Summary (Accordion Content) */
+        .match-summary {
+            background-color: #242b45;
+            padding: 1.8rem;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 65, 108, 0.2);
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            visibility: hidden;
+            margin-top: 1rem;
+            transition:
+                max-height 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                opacity 0.3s ease-in-out 0.1s,
+                padding-top 0.5s ease-in-out,
+                padding-bottom 0.5s ease-in-out,
+                margin-top 0.5s ease-in-out,
+                visibility 0s linear 0.5s;
+        }
+
+        .match-summary.is-expanded {
+            max-height: 800px; /* Increased max-height for potentially long scorecards */
+            opacity: 1;
+            visibility: visible;
+            margin-top: 1.5rem;
+            transition:
+                max-height 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                opacity 0.4s ease-in-out,
+                padding-top 0.5s ease-in-out,
+                padding-bottom 0.5s ease-in-out,
+                margin-top 0.5s ease-in-out,
+                visibility 0s linear 0s;
+        }
+
+        /* Detailed Match Summary Styles (Copied & Adapted from index.html) */
+        .detailed-summary {
+            font-family: 'Arial', sans-serif;
+            color: #c0c0c0;
+        }
+
+        .summary-main-title {
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #e94560;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .summary-subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #b0c4de;
+            margin-bottom: 1.5rem;
+        }
+
+        .innings-summary {
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </head>
-<body>    <div class="playoffs-container">
-        <!-- Back Navigation -->
-        <nav class="back-navigation">
+<body>
+    <div class="playoffs-container">
+        <div class="back-navigation">
             <a href="index.html" class="back-to-home">
                 <span class="back-arrow">←</span>
                 <span class="back-text">Back to Home</span>
             </a>
-        </nav>
-        
-        <h1>RC24 Tri Series League Playoffs</h1>        <!-- Playoff Flow Diagram -->
-        <div class="playoff-flow-diagram">
-            <h2>Playoff Structure</h2>
-            
-            <!-- Playoff Explanation -->
-            <div class="playoff-explanation">
-                <h3>How the Playoffs Work</h3>
-                <p>The <span class="highlight">top 3 teams</span> from the league stage qualify for the playoffs. The playoff system gives <span class="highlight">multiple chances</span> to the top teams while maintaining competitive balance.</p>
-                <p><strong>Step 1:</strong> Top 2 teams play in the <span class="highlight">Qualifier</span> for direct entry to Final</p>
-                <p><strong>Step 2:</strong> Qualifier loser gets a second chance in the <span class="highlight">Eliminator</span> against 3rd place</p>
-                <p><strong>Step 3:</strong> Qualifier winner and Eliminator winner meet in the <span class="highlight">Grand Final</span></p>
-            </div>
-            
-            <div class="tournament-flow">
-                <div class="playoff-grid">
-                    <!-- Left Column -->
-                    <div class="left-column">
-                        <!-- Qualifier Tile (Top Left) -->
-                        <div class="tournament-tile qualifier-tile">
-                            <div class="step-number">1</div>
-                            <div class="tile-header">
-                                <h3>QUALIFIER</h3>
-                            </div>
-                            <div class="tile-content">
-                                <div class="match-teams">
-                                    <div class="team-slot team-1">
-                                        <img src="Royal_Challengers_Bengaluru_Logo.svg.png" alt="RCB" class="team-logo">
-                                        <span class="team-name">RCB</span>
-                                        <span class="team-position">1st Place</span>
-                                    </div>
-                                    <div class="vs-connector">VS</div>
-                                    <div class="team-slot team-2">
-                                        <img src="Chennai_Super_Kings_Logo.svg.png" alt="CSK" class="team-logo">
-                                        <span class="team-name">CSK</span>
-                                        <span class="team-position">2nd Place</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        </div>
 
-                        <!-- Eliminator Tile (Bottom Left) -->
-                        <div class="tournament-tile eliminator-tile">
-                            <div class="step-number">2</div>
-                            <div class="tile-header">
-                                <h3>ELIMINATOR</h3>
-                            </div>
-                            <div class="tile-content">
-                                <div class="match-teams">
-                                    <div class="team-slot loser-slot">
-                                        <div class="team-placeholder">QUALIFIER LOSER</div>
-                                    </div>
-                                    <div class="vs-connector">VS</div>
-                                    <div class="team-slot team-3">
-                                        <img src="Mumbai_Indians_Logo.svg.png" alt="MI" class="team-logo">
-                                        <span class="team-name">MI</span>
-                                        <span class="team-position">3rd Place</span>
-                                    </div>
+        <h1>🏆 Playoffs Bracket 🏆</h1>
+
+        <div class="playoff-explanation">
+            <h3>The Road to the Championship</h3>
+            <p>The top two teams from the league stage will play the <span class="highlight">Qualifier</span>. The winner goes straight to the <span class="highlight">Final</span>!</p>
+            <p>The loser of the Qualifier gets a second chance, playing against the third-placed team in the <span class="highlight">Eliminator</span>.</p>
+            <p>The winner of the Eliminator then faces the winner of the Qualifier in the ultimate showdown: the <span class="highlight">Grand Final</span>!</p>
+        </div>
+
+        <div class="tournament-flow">
+            <div class="playoff-grid">
+                <!-- Left Column: Qualifier & Eliminator -->
+                <div class="left-column">
+                    <!-- Qualifier Match -->
+                    <div id="qualifier-match" class="tournament-tile qualifier-tile">
+                        <div class="tile-header"><h3>Qualifier</h3></div>
+                        <div class="tile-content">
+                            <div class="match-teams">
+                                <div id="qualifier-team1" class="team-slot team-1">
+                                    <img src="Royal_Challengers_Bengaluru_Logo.svg.png" alt="Team 1 Logo" class="team-logo">
+                                    <p class="team-name">Team RCB</p>
+                                    <p class="team-position">1st Place</p>
+                                </div>
+                                <div class="vs-connector">VS</div>
+                                <div id="qualifier-team2" class="team-slot team-2">
+                                    <img src="Chennai_Super_Kings_Logo.svg.png" alt="Team 2 Logo" class="team-logo">
+                                    <p class="team-name">Team CSK</p>
+                                    <p class="team-position">2nd Place</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Connecting Arrows -->
-                    <div class="arrow-connections">
-                        <!-- Winner Arrow: Qualifier → Final -->
-                        <div class="arrow-path qualifier-to-final">
-                            <div class="arrow-label winner-label">WINNER</div>
-                            <div class="arrow-line winner-line-horizontal"></div>
-                            <div class="arrow-head">→</div>
-                        </div>
-
-                        <!-- Loser Arrow: Qualifier → Eliminator -->
-                        <div class="arrow-path qualifier-to-eliminator">
-                            <div class="arrow-label loser-label">LOSER</div>
-                            <div class="arrow-line loser-line-vertical"></div>
-                            <div class="arrow-head">↓</div>
-                        </div>
-
-                        <!-- Eliminator Winner Arrow: Eliminator → Final -->
-                        <div class="arrow-path eliminator-to-final">
-                            <div class="arrow-label eliminator-winner-label">WINNER</div>
-                            <div class="arrow-line eliminator-winner-line"></div>
-                            <div class="arrow-head">→</div>
-                        </div>
-                    </div>                    <!-- Right Column -->
-                    <div class="right-column">
-                        <!-- Final Tile (Middle Right) -->
-                        <div class="tournament-tile final-tile">
-                            <div class="step-number">3</div>
-                            <div class="tile-header">
-                                <h3>🏆 GRAND FINAL</h3>
-                            </div>
-                            <div class="tile-content">
-                                <div class="final-matchup">
-                                    <div class="finalist-slot">
-                                        <div class="team-placeholder">QUALIFIER WINNER</div>
-                                    </div>
-                                    <div class="vs-connector final-vs">VS</div>
-                                    <div class="finalist-slot">
-                                        <div class="team-placeholder">ELIMINATOR WINNER</div>
-                                    </div>
+                    <!-- Eliminator Match -->
+                    <div id="eliminator-match" class="tournament-tile eliminator-tile">
+                        <div class="tile-header"><h3>Eliminator</h3></div>
+                        <div class="tile-content">
+                            <div class="match-teams">
+                                <div id="eliminator-team1" class="team-slot loser-slot">
+                                    <!-- Populated by JS -->
+                                    <p class="team-placeholder">Loser of QF</p>
                                 </div>
-                                <div class="championship-text">RC24 TRI SERIES CHAMPION</div>
+                                <div class="vs-connector">VS</div>
+                                <div id="eliminator-team2" class="team-slot team-3">
+                                    <img src="Mumbai_Indians_Logo.svg.png" alt="Team 3 Logo" class="team-logo">
+                                    <p class="team-name">Team MI</p>
+                                    <p class="team-position">3rd Place</p>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center Column: Arrows -->
+                <div class="center-column" style="display: flex; flex-direction: column; align-items: center; justify-content: space-around; gap: 2rem;">
+                    <!-- Arrow from Qualifier to Final -->
+                    <div class="flow-arrow-horizontal">
+                        <div class="arrow-line-horizontal winner-line-horizontal"></div>
+                        <div class="arrow-head-horizontal">▶</div>
+                    </div>
+                    <!-- Arrow from Eliminator to Final -->
+                    <div class="flow-arrow-horizontal">
+                        <div class="arrow-line-horizontal eliminator-winner-line"></div>
+                        <div class="arrow-head-horizontal">▶</div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Final -->
+                <div class="right-column">
+                    <div id="final-match" class="tournament-tile final-tile">
+                        <div class="tile-header"><h3>🏆 Grand Final 🏆</h3></div>
+                        <div class="tile-content">
+                            <div class="final-matchup">
+                                <div id="final-team1" class="team-slot finalist-slot">
+                                    <!-- Populated by JS -->
+                                    <p class="team-placeholder">Winner of QF</p>
+                                </div>
+                                <div class="vs-connector final-vs">VS</div>
+                                <div id="final-team2" class="team-slot finalist-slot">
+                                    <!-- Populated by JS -->
+                                    <p class="team-placeholder">Winner of EL</p>
+                                </div>
+                            </div>
+                            <p id="championship-text" class="championship-text">Winner to be decided!</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="bracket-flow">
-            <!-- Qualifier -->
-            <div class="playoff-stage">
-                <h2>Qualifier</h2>
-                <div class="match-group">
-                    <div class="match-box">
-                        <h3>Qualifier Match</h3>
-                        <p>Team 1 vs Team 2</p>
-                        <p><strong style="color: #ff416c;">RCB vs CSK</strong></p>
-                        <div class="team-positions">
-                            <span class="position-badge first">1st</span>
-                            <span class="vs-text">vs</span>
-                            <span class="position-badge second">2nd</span>
-                        </div>
-                    </div>
-                </div>
-                <p class="match-outcome">
-                    <span class="winner-path">Winner</span> advances to Final |
-                    <span class="loser-path">Loser</span> goes to Eliminator
-                </p>
+        <!-- Champion Banner -->
+        <div class="champion-banner" id="championBanner">
+            <img src="Royal_Challengers_Bengaluru_Logo.svg.png" alt="Champion Logo">
+            <div style="text-align: center;">
+                <div style="font-size: 1.2em; font-weight: 700;">ROYAL CHALLENGERS BENGALURU</div>
+                <div style="font-size: 0.8em; text-transform: uppercase; margin-top: 5px; letter-spacing: 2px;">Champions </div>
             </div>
-
-            <!-- Eliminator -->
-            <div class="playoff-stage">
-                <h2>Eliminator</h2>
-                <div class="match-group">
-                    <div class="match-box">
-                        <h3>Eliminator Match</h3>
-                        <p>Loser of Qualifier vs Team 3</p>
-                        <p><strong style="color: #ff416c;">Loser vs MI</strong></p>
-                        <div class="team-positions">
-                            <span class="position-badge loser">Q.Loser</span>
-                            <span class="vs-text">vs</span>
-                            <span class="position-badge third">3rd</span>
-                        </div>
-                    </div>
-                </div>
-                <p class="match-outcome">
-                    <span class="winner-path">Winner</span> advances to Final |
-                    <span class="loser-path">Loser</span> is Eliminated
-                </p>
-            </div>
-
-            <!-- Final -->
-            <div class="playoff-stage">
-                <h2>The Grand Final</h2>
-                <div class="match-group">
-                    <div class="match-box final">
-                        <h3>🏆 Championship Final</h3>
-                        <p>Winner of Qualifier vs Winner of Eliminator</p>
-                        <div class="final-teams">
-                            <span class="finalist">Qualifier Winner</span>
-                            <span class="vs-final">vs</span>
-                            <span class="finalist">Eliminator Winner</span>
-                        </div>
-                    </div>
-                </div>
-                <p style="margin-top: 1rem; font-size: 1.2rem; color: #ffc107; font-weight: bold;">
-                    🏆 RC24 Tri Series League Champion! 🏆
-                </p>
-            </div>        
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- CONFIGURATION ---
+            const teams = {
+                'Team RCB': { name: 'Royal Challengers Bengaluru', logo: 'Royal_Challengers_Bengaluru_Logo.svg.png' },
+                'Team CSK': { name: 'Team CSK', logo: 'Chennai_Super_Kings_Logo.svg.png' },
+                'Team MI': { name: 'Team MI', logo: 'Mumbai_Indians_Logo.svg.png' }
+            };
+
+            const qualifier = {
+                team1: 'Team RCB',
+                team2: 'Team CSK',
+                winner: 'Team RCB'
+            };
+
+            const eliminator = {
+                team3: 'Team MI',
+                winner: 'Team CSK'
+            };
+
+            const final = {
+                winner: 'Team RCB'
+            };
+
+            // --- UI ELEMENTS ---
+            const qualifierTeam1Elem = document.getElementById('qualifier-team1');
+            const qualifierTeam2Elem = document.getElementById('qualifier-team2');
+            const eliminatorTeam1Elem = document.getElementById('eliminator-team1');
+            const eliminatorTeam2Elem = document.getElementById('eliminator-team2');
+            const finalTeam1Elem = document.getElementById('final-team1');
+            const finalTeam2Elem = document.getElementById('final-team2');
+            const championshipText = document.getElementById('championship-text');
+            const championBanner = document.getElementById('champion-banner');
+
+            // --- LOGIC ---
+
+            // 1. Determine Qualifier Loser
+            const qualifierLoser = qualifier.winner === qualifier.team1 ? qualifier.team2 : qualifier.team1;
+
+            // 2. Populate Eliminator Match
+            updateTeamSlot(eliminatorTeam1Elem, teams[qualifierLoser].name, teams[qualifierLoser].logo, 'Loser of QF');
+            
+            // 3. Determine Eliminator Winner and Finalist 2
+            const eliminatorWinner = eliminator.winner;
+
+            // 4. Populate Final Match
+            updateTeamSlot(finalTeam1Elem, teams[qualifier.winner].name, teams[qualifier.winner].logo, 'Winner of QF');
+            updateTeamSlot(finalTeam2Elem, teams[eliminatorWinner].name, teams[eliminatorWinner].logo, 'Winner of EL');
+
+            // 5. Display Final Winner
+            if (final.winner) {
+                championshipText.textContent = `${teams[final.winner].name} are the Champions!`;
+
+                // Update and show the main champion banner
+                championBanner.innerHTML = `<img src="${teams[final.winner].logo}" alt="${teams[final.winner].name} Logo"> 🏆 ${teams[final.winner].name.toUpperCase()} ARE THE CHAMPIONS! 🏆`;
+
+                // Highlight the winner in the final match
+                const finalWinnerElem = (final.winner === qualifier.winner) ? finalTeam1Elem : finalTeam2Elem;
+                finalWinnerElem.style.borderColor = '#ffd700';
+                finalWinnerElem.style.boxShadow = '0 0 25px #ffd700';
+            }
+
+            // --- HELPER FUNCTION ---
+            function updateTeamSlot(element, name, logoSrc, positionText) {
+                element.innerHTML = `
+                    <img src="${logoSrc}" alt="${name} Logo" class="team-logo">
+                    <p class="team-name">${name}</p>
+                    <p class="team-position">${positionText}</p>
+                `;
+                element.classList.remove('team-placeholder');
+            }
+        });
+    </script>
 </body>
 </html>
